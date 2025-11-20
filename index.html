@@ -11,14 +11,17 @@
         padding: 20px;
         text-align: center;
     }
+    /* فقط جهت نمایش اعداد و ریاضی از چپ به راست */
     #screen {
         width: 80%;
         height: 50px;
         font-size: 24px;
         margin-bottom: 20px;
-        text-align: center;
+        text-align: left; /* اعداد و ریاضی از چپ به راست */
+        direction: ltr;   /* اعداد و علائم ریاضی از چپ به راست */
         border: 2px solid #444;
         border-radius: 8px;
+        padding-left: 10px;
     }
     .keyboard {
         display: flex;
@@ -141,7 +144,7 @@ function clearInput() {
     document.getElementById("result").innerHTML = "";
 }
 
-// تبدیل رادیکال به Math.sqrt
+// تبدیل رادیکال و توان به Math
 function convertRadicals(expr) {
     expr = expr.replace(/√\((.*?)\)/g, "Math.sqrt($1)");
     expr = expr.replace(/√(\d+(\.\d+)?)/g, "Math.sqrt($1)");
