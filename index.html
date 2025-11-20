@@ -12,24 +12,41 @@
     }
     h1 { color: #0077b6; }
     input {
-      padding: 10px;
+      padding: 12px;
       margin: 10px;
       font-size: 18px;
-      width: 250px;
+      width: 260px;
       text-align: center;
+      border: 2px solid #0077b6;
+      border-radius: 8px;
     }
     button {
-      padding: 10px;
-      margin: 5px;
+      padding: 12px;
       font-size: 16px;
       cursor: pointer;
+      border-radius: 8px;
+      border: none;
+      background: #0077b6;
+      color: white;
+      transition: 0.2s;
     }
+    button:hover { background: #0096c7; }
     .keyboard {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
+      gap: 10px;
       max-width: 300px;
       margin: 20px auto;
+    }
+    .keyboard button {
+      background: #e0f7fa;
+      color: #0077b6;
+      font-weight: bold;
+      border: 1px solid #0077b6;
+    }
+    .keyboard button:hover {
+      background: #0077b6;
+      color: white;
     }
     .result {
       margin-top: 20px;
@@ -50,20 +67,22 @@
   
   <!-- کیبورد مجازی -->
   <div class="keyboard">
-    <button onclick="addChar('1')">1</button>
-    <button onclick="addChar('2')">2</button>
-    <button onclick="addChar('3')">3</button>
-    <button onclick="addChar('4')">4</button>
-    <button onclick="addChar('5')">5</button>
-    <button onclick="addChar('6')">6</button>
     <button onclick="addChar('7')">7</button>
     <button onclick="addChar('8')">8</button>
     <button onclick="addChar('9')">9</button>
-    <button onclick="addChar('0')">0</button>
-    <button onclick="addChar('.')">.</button>
     <button onclick="addChar('/')">/</button>
-    <button onclick="addChar('-')">-</button>
     <button onclick="addChar('√')">√</button>
+    
+    <button onclick="addChar('4')">4</button>
+    <button onclick="addChar('5')">5</button>
+    <button onclick="addChar('6')">6</button>
+    <button onclick="addChar('.')">.</button>
+    <button onclick="addChar('-')">-</button>
+    
+    <button onclick="addChar('1')">1</button>
+    <button onclick="addChar('2')">2</button>
+    <button onclick="addChar('3')">3</button>
+    <button onclick="addChar('0')">0</button>
     <button onclick="clearInput()">پاک</button>
   </div>
   
@@ -112,4 +131,31 @@
             explanation = `رادیکاند مربع کامل بود، پس جذر ${num} عدد صحیح است.`;
           } else {
             category = "گنگ";
-            explanation = `رادیکاند مربع کامل نبود، پس جذر ${num.toFixed(4)} عدد
+            explanation = `رادیکاند مربع کامل نبود، پس جذر ${num.toFixed(4)} عدد گنگ است.`;
+          }
+        } else if (parsed.type === "fraction") {
+          if (Number.isInteger(num)) {
+            category = num >= 0 ? "طبیعی" : "صحیح";
+            explanation = `کسر ساده شد و نتیجه ${num} عدد صحیح است.`;
+          } else {
+            category = "گویا";
+            explanation = `این عدد به صورت کسر نوشته شده، پس گویا است (${num}).`;
+          }
+        } else {
+          if (Number.isInteger(num)) {
+            category = num >= 0 ? "طبیعی" : "صحیح";
+            explanation = `عدد ${num} بدون بخش اعشاری است، پس صحیح و اگر نامنفی باشد طبیعی است.`;
+          } else {
+            category = "گویا";
+            explanation = `عدد ${num} اعشاری متناهی است، پس می‌توان آن را به صورت کسر نوشت و گویا است.`;
+          }
+        }
+
+        resultDiv.innerHTML = `<strong>دسته:</strong> ${category}<br><strong>دلیل:</strong> ${explanation}`;
+      } catch (err) {
+        resultDiv.innerHTML = `<span class="error">خطا: ${err}</span>`;
+      }
+    }
+  </script>
+</body>
+</html>
