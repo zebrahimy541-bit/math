@@ -5,16 +5,17 @@
   <title>آزمایشگاه کلاس‌بندی اعداد</title>
   <style>
     body {
-      font-family: Tahoma, sans-serif;
+      font-family: "Tahoma", "Vazirmatn", sans-serif;
       margin: 0;
       text-align: center;
       padding: 40px;
-      /* پس‌زمینه با تناژ آبی و سفید و طرح ریاضی */
-      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-      background-image: 
+      color: black;
+      /* پس‌زمینه آبی کمرنگ با طرح‌های ریاضی */
+      background: #bbdefb;
+      background-image:
+        repeating-linear-gradient(45deg, rgba(255,255,255,0.3) 0px, rgba(255,255,255,0.3) 2px, transparent 2px, transparent 6px),
         radial-gradient(circle at 20% 20%, rgba(255,255,255,0.4) 0%, transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.4) 0%, transparent 40%),
-        repeating-linear-gradient(45deg, rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 2px, transparent 2px, transparent 6px);
+        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.4) 0%, transparent 40%);
     }
     h1 { color: #0d47a1; }
     input {
@@ -25,6 +26,7 @@
       text-align: center;
       border: 2px solid #0d47a1;
       border-radius: 8px;
+      color: black;
     }
     button {
       padding: 12px;
@@ -38,7 +40,7 @@
     }
     button:hover { background: #1565c0; }
     .keyboard {
-      display: none; /* مخفی پیش‌فرض */
+      display: none;
       grid-template-columns: repeat(5, 1fr);
       gap: 10px;
       max-width: 300px;
@@ -78,13 +80,23 @@
       padding-left: 20px;
       text-align: right;
     }
+    .sets {
+      margin-top: 30px;
+      padding: 15px;
+      background: rgba(255,255,255,0.8);
+      border-radius: 8px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: right;
+    }
   </style>
 </head>
 <body>
   <h1>آزمایشگاه کلاس‌بندی اعداد</h1>
   <p>یک عدد وارد کنید:</p>
   
-  <input type="text" id="numberInput" placeholder="مثال: 5 یا 3/4 یا √2 یا -2.5">
+  <input type="text" id="numberInput" placeholder="عدد را در اینجا وارد کنید">
   <button onclick="classifyNumber()">کلاس‌بندی</button>
   
   <!-- راهنمای ورودی -->
@@ -120,6 +132,18 @@
   </div>
   
   <div id="result" class="result"></div>
+  
+  <!-- مجموعه‌های عددی -->
+  <div class="sets">
+    <strong>مجموعه‌های عددی:</strong>
+    <ul>
+      <li>طبیعی (N): 0, 1, 2, 3, ...</li>
+      <li>صحیح (Z): ..., -2, -1, 0, 1, 2, ...</li>
+      <li>گویا (Q): اعداد به صورت a/b با a,b صحیح و b≠0</li>
+      <li>گنگ (I): مثل √2 ، π</li>
+      <li>حقیقی (R): همهٔ اعداد روی محور حقیقی</li>
+    </ul>
+  </div>
   
   <script>
     const inputEl = document.getElementById("numberInput");
@@ -177,29 +201,4 @@
         } else if (parsed.type === "fraction") {
           if (Number.isInteger(num)) {
             category = num >= 0 ? "طبیعی" : "صحیح";
-            explanation = `کسر ساده شد و نتیجه ${num} عدد صحیح است.`;
-          } else {
-            category = "گویا";
-            explanation = `این عدد به صورت کسر نوشته شده، پس گویا است (${num}).`;
-          }
-        } else {
-          if (Number.isInteger(num)) {
-            category = num >= 0 ? "طبیعی" : "صحیح";
-            explanation = `عدد ${num} بدون بخش اعشاری است، پس صحیح و اگر نامنفی باشد طبیعی است.`;
-          } else {
-            category = "گویا";
-            explanation = `عدد ${num} اعشاری متناهی است، پس می‌توان آن را به صورت کسر نوشت و گویا است.`;
-          }
-        }
-
-        resultDiv.innerHTML = `<strong>دسته:</strong> ${category}<br><strong>دلیل:</strong> ${explanation}`;
-        
-        // بستن کیبورد بعد از محاسبه
-        keyboardEl.style.display = "none";
-      } catch (err) {
-        resultDiv.innerHTML = `<span class="error">خطا: ${err}</span>`;
-      }
-    }
-  </script>
-</body>
-</html>
+            explanation = `کسر ساده شد
