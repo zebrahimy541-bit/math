@@ -32,7 +32,7 @@
     }
     button:hover { background: #0096c7; }
     .keyboard {
-      display: grid;
+      display: none; /* مخفی پیش‌فرض */
       grid-template-columns: repeat(5, 1fr);
       gap: 10px;
       max-width: 300px;
@@ -43,6 +43,7 @@
       color: #0077b6;
       font-weight: bold;
       border: 1px solid #0077b6;
+      border-radius: 6px;
     }
     .keyboard button:hover {
       background: #0077b6;
@@ -66,7 +67,7 @@
   <button onclick="classifyNumber()">کلاس‌بندی</button>
   
   <!-- کیبورد مجازی -->
-  <div class="keyboard">
+  <div id="keyboard" class="keyboard">
     <button onclick="addChar('7')">7</button>
     <button onclick="addChar('8')">8</button>
     <button onclick="addChar('9')">9</button>
@@ -89,11 +90,19 @@
   <div id="result" class="result"></div>
   
   <script>
+    const inputEl = document.getElementById("numberInput");
+    const keyboardEl = document.getElementById("keyboard");
+
+    // نمایش کیبورد هنگام کلیک روی ورودی
+    inputEl.addEventListener("focus", () => {
+      keyboardEl.style.display = "grid";
+    });
+
     function addChar(c) {
-      document.getElementById("numberInput").value += c;
+      inputEl.value += c;
     }
     function clearInput() {
-      document.getElementById("numberInput").value = "";
+      inputEl.value = "";
     }
 
     function parseInput(value) {
@@ -117,7 +126,7 @@
     }
 
     function classifyNumber() {
-      const input = document.getElementById("numberInput").value;
+      const input = inputEl.value;
       const resultDiv = document.getElementById("result");
       try {
         const parsed = parseInput(input);
@@ -152,6 +161,9 @@
         }
 
         resultDiv.innerHTML = `<strong>دسته:</strong> ${category}<br><strong>دلیل:</strong> ${explanation}`;
+        
+        // بستن کیبورد بعد از محاسبه
+        keyboardEl.style.display = "none";
       } catch (err) {
         resultDiv.innerHTML = `<span class="error">خطا: ${err}</span>`;
       }
