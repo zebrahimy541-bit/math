@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>آزمایشگاه دسته‌بندی اعداد</title>
+
 <style>
     body {
-        font-family: Vazirmatn, sans-serif;
+        font-family: sans-serif;
         background: #f7f7f7;
         padding: 20px;
         text-align: center;
@@ -34,118 +35,3 @@
         background: white;
         transition: 0.2s;
     }
-    button:hover {
-        background: #e1e1e1;
-    }
-    #result {
-        margin-top: 25px;
-        padding: 15px;
-        background: #fff;
-        border-radius: 10px;
-        font-size: 20px;
-    }
-</style>
-</head>
-
-<body>
-
-<h1>آزمایشگاه دسته‌بندی اعداد</h1>
-
-<input id="screen" type="text" readonly>
-
-<div class="keyboard">
-    <!-- اعداد -->
-    <button onclick="add('7')">7</button>
-    <button onclick="add('8')">8</button>
-    <button onclick="add('9')">9</button>
-
-    <button onclick="add('4')">4</button>
-    <button onclick="add('5')">5</button>
-    <button onclick="add('6')">6</button>
-
-    <button onclick="add('1')">1</button>
-    <button onclick="add('2')">2</button>
-    <button onclick="add('3')">3</button>
-
-    <button onclick="add('0')">0</button>
-
-    <!-- نمادها -->
-    <button onclick="add('.')">.</button>
-    <button onclick="add('-')">−</button>
-
-    <!-- رادیکال -->
-    <button onclick="add('√(')">√</button>
-    <button onclick="add(')')">)</button>
-
-    <!-- کنترل -->
-    <button onclick="clearInput()">پاک کردن</button>
-    <button onclick="categorize()">دسته‌بندی</button>
-</div>
-
-<div id="result"></div>
-
-<script>
-// افزودن کاراکتر به نمایشگر
-function add(c) {
-    document.getElementById("screen").value += c;
-}
-
-// پاک کردن
-function clearInput() {
-    document.getElementById("screen").value = "";
-    document.getElementById("result").innerHTML = "";
-}
-
-// تابع تشخیص نوع عدد
-function categorize() {
-    let input = document.getElementById("screen").value;
-    let result = document.getElementById("result");
-
-    // بررسی رادیکال
-    if (input.includes("√")) {
-        try {
-            let inside = input.match(/√\((.*?)\)/)[1];
-            let value = Math.sqrt(eval(inside));
-            if (Number.isInteger(value)) {
-                result.innerHTML = `🔹 **این عدد گنگ نیست**  
-                چون مقدار رادیکال برابر ${value} و یک عدد صحیح است.<br>
-                ➜ دسته: **عدد صحیح، عدد گویا، عدد حقیقی**`;
-            } else {
-                result.innerHTML = `🔹 **این عدد گنگ است**  
-                مقدار رادیکال برابر ${value} است که یک عدد نامتناهی غیر دوره‌ای است.<br>
-                ➜ دسته: **عدد گنگ، عدد حقیقی**`;
-            }
-            return;
-        } catch {
-            result.innerHTML = "ورودی رادیکال نامعتبر است.";
-            return;
-        }
-    }
-
-    // تبدیل به عدد واقعی
-    let num = Number(input);
-    if (isNaN(num)) {
-        result.innerHTML = "❌ ورودی معتبر نیست.";
-        return;
-    }
-
-    let explanation = `مقدار وارد شده: **${num}** <br><br>`;
-
-    // دسته‌بندی
-    if (Number.isInteger(num)) {
-        if (num >= 0) explanation += "🔹 **طبیعی** (چون یک عدد صحیح غیرمنفی است)<br>";
-        explanation += "🔹 **صحیح** (چون بخش اعشاری ندارد)<br>";
-        explanation += "🔹 **گویا** (چون قابل نوشتن به صورت کسر است)<br>";
-        explanation += "🔹 **حقیقی**<br>";
-    } else {
-        explanation += "🔹 **اعشاری** (چون بخش کسری دارد)<br>";
-        explanation += "🔹 **گویا** (اگر اعشار متناهی یا دوره‌ای باشد)<br>";
-        explanation += "🔹 **حقیقی**<br>";
-    }
-
-    result.innerHTML = explanation;
-}
-</script>
-
-</body>
-</html>
