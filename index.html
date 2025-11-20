@@ -201,4 +201,12 @@
             explanation = `رادیکاند مربع کامل بود، پس جذر ${num} عدد صحیح است.`;
           } else {
             category = "گنگ";
-            explanation = `رادیکاند مربع
+            explanation = `رادیکاند مربع کامل نبود، پس جذر ${num.toFixed(4)} عدد گنگ است.`;
+          }
+        } else if (parsed.type === "fraction") {
+          if (Number.isInteger(num)) {
+            category = num >= 0 ? "طبیعی" : "صحیح";
+            explanation = `کسر ساده شد و نتیجه ${num} عدد صحیح است.`;
+          } else {
+            category = "گویا";
+            explanation = `این عدد به صورت کسر نوشته شده، پس گویا است (${num}).`;
