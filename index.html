@@ -111,7 +111,7 @@ button:hover {
 <b>−</b> → تفریق<br>
 <b>*</b> → ضرب<br>
 <b>/</b> → تقسیم<br>
-<b>√</b> → وارد کردن رادیکال. مثال: 3*√4 → ابتدا √4=2 محاسبه می‌شود، سپس 3 ضرب می‌شود → 6.<br>
+<b>√</b> → وارد کردن رادیکال. مثال: 7√16 → ابتدا √16=4 محاسبه، سپس 7 ضرب می‌شود → 28.<br>
 <b>^</b> → توان. مثال: 2^3 = 8<br>
 <b>( و )</b> → گروه‌بندی و تعیین اولویت عملیات.<br>
 <b>پاک کردن</b> → پاک کردن ورودی<br>
@@ -130,15 +130,16 @@ function clearInput() {
     document.getElementById("result").innerHTML = "";
 }
 
-// منطق محاسبه صحیح رادیکال‌ها
+// منطق صحیح رادیکال با ضریب جلوی رادیکال
 function convertRadicals(expr) {
-    // √( … )
-    expr = expr.replace(/√\((.*?)\)/g, function(match, inner){
-        return "Math.sqrt(" + inner + ")";
+    // پیدا کردن ضریب قبل رادیکال (اختیاری) و √عدد یا √(عبارت)
+    expr = expr.replace(/(\d+(\.\d+)?)?√\((.*?)\)/g, function(match, coeff, _, inner){
+        if(!coeff) coeff = 1;
+        return "(" + coeff + "*Math.sqrt(" + inner + "))";
     });
-    // √عدد ساده
-    expr = expr.replace(/√(\d+(\.\d+)?)/g, function(match, num){
-        return "Math.sqrt(" + num + ")";
+    expr = expr.replace(/(\d+(\.\d+)?)?√(\d+(\.\d+)?)/g, function(match, coeff, _, num){
+        if(!coeff) coeff = 1;
+        return "(" + coeff + "*Math.sqrt(" + num + "))";
     });
     // توان
     expr = expr.replace(/(\d+(\.\d+)?)\^(\d+(\.\d+)?)/g,"Math.pow($1,$3)");
