@@ -74,25 +74,36 @@
 <input id="screen" type="text">
 
 <div class="keyboard">
-    <button onclick="add('7')">7</button>
-    <button onclick="add('8')">8</button>
-    <button onclick="add('9')">9</button>
-    <button onclick="add('4')">4</button>
-    <button onclick="add('5')">5</button>
-    <button onclick="add('6')">6</button>
+    <!-- اعداد به ترتیب استاندارد 1-9 و 0 -->
     <button onclick="add('1')">1</button>
     <button onclick="add('2')">2</button>
     <button onclick="add('3')">3</button>
+    <button onclick="add('4')">4</button>
+    <button onclick="add('5')">5</button>
+    <button onclick="add('6')">6</button>
+    <button onclick="add('7')">7</button>
+    <button onclick="add('8')">8</button>
+    <button onclick="add('9')">9</button>
     <button onclick="add('0')">0</button>
+
+    <!-- عملگرها -->
     <button onclick="add('.')">.</button>
     <button onclick="add('-')">−</button>
     <button onclick="add('+')">+</button>
     <button onclick="add('/')">/</button>
     <button onclick="add('*')">*</button>
+
+    <!-- رادیکال -->
     <button onclick="add('√')">√</button>
+
+    <!-- توان -->
     <button onclick="add('^')">^</button>
+
+    <!-- پرانتز -->
     <button onclick="add('(')">(</button>
     <button onclick="add(')')">)</button>
+
+    <!-- کنترل -->
     <button onclick="clearInput()">پاک کردن</button>
     <button onclick="categorize()">دسته‌بندی</button>
 </div>
@@ -136,10 +147,9 @@ function convertRadicals(expr) {
     return expr;
 }
 
-// بررسی گویا بودن با دقت: عدد صحیح یا کسری ساده
+// بررسی گویا بودن با دقت بالا
 function isRational(value) {
     if (Number.isInteger(value)) return true;
-    // بررسی تبدیل به کسر با دقت 1e-10
     for (let denominator = 1; denominator <= 10000; denominator++) {
         let numerator = value * denominator;
         if (Math.abs(numerator - Math.round(numerator)) < 1e-10) return true;
