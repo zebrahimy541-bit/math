@@ -69,17 +69,21 @@ button:hover {
     color: #2a4d8f;
 }
 #tips {
-    position: fixed;
-    top: 60px; /* کمی بالاتر از کیبورد */
-    right: 20px;
-    width: 250px;
+    width: 90%;
+    max-width: 500px;
+    margin: 10px auto 30px auto; /* بالای کیبورد و فاصله از صفحه */
     padding: 12px;
     background: #ffd966; /* رنگ جذاب */
     border: 1px solid #f0c36d;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 14px;
     text-align: right;
-    z-index: 1000;
+}
+@media (max-width: 600px) {
+    #tips {
+        font-size: 13px;
+        width: 95%;
+    }
 }
 </style>
 </head>
@@ -88,8 +92,6 @@ button:hover {
 
 <h1>آزمایشگاه دسته‌بندی اعداد</h1>
 
-<input id="screen" type="text">
-
 <div id="tips">
 <b>نکات مهم:</b><br>
 ▪ برای جمع، تفریق یا تقسیم رادیکال‌ها، عملیات را داخل پرانتز قرار دهید تا اولویت‌ها رعایت شود.<br>
@@ -97,6 +99,8 @@ button:hover {
 ▪ همیشه ترتیب عملیات ریاضی و پرانتزها را رعایت کنید تا نتیجه درست محاسبه شود.<br>
 ▪ می‌توانید چند رادیکال و عملیات ترکیبی را با پرانتزهای مناسب وارد کنید.
 </div>
+
+<input id="screen" type="text">
 
 <div class="keyboard">
     <button onclick="add('1')">1</button>
