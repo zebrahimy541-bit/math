@@ -45,6 +45,7 @@
         background: #fff;
         border-radius: 10px;
         font-size: 20px;
+        text-align: right;
     }
 </style>
 </head>
@@ -82,8 +83,8 @@
     <button onclick="add('√')">√</button>
 
     <!-- پرانتز -->
-    <button onclick="add('(')">(</button>
-    <button onclick="add(')')">)</button>
+    <button onclick="add('(')"> ( </button>
+    <button onclick="add(')')"> ) </button>
 
     <!-- کنترل -->
     <button onclick="clearInput()">پاک کردن</button>
@@ -105,19 +106,20 @@ function clearInput() {
 }
 
 
-// تبدیل √ به Math.sqrt
+// ✔ تبدیل √ به Math.sqrt
 function convertRadicals(expr) {
 
     // √(عبارت)
     expr = expr.replace(/√\((.*?)\)/g, "Math.sqrt($1)");
 
-    // √عدد بدون پرانتز مثل √2 ، √10 ، √3.5
+    // √عدد بدون پرانتز
     expr = expr.replace(/√(\d+(\.\d+)?)/g, "Math.sqrt($1)");
 
     return expr;
 }
 
 
+// ⭐⭐⭐ تابع دسته‌بندی با دلیل ⭐⭐⭐
 function categorize() {
     let input = document.getElementById("screen").value;
     let result = document.getElementById("result");
@@ -137,17 +139,34 @@ function categorize() {
         return;
     }
 
-    let explanation = `مقدار نهایی: <b>${value}</b><br><br>`;
+    let explanation = `<b>مقدار نهایی:</b> ${value}<br><br>`;
+    explanation += "<b>دسته‌بندی همراه با دلیل:</b><br><br>";
 
-    if (Number.isInteger(value)) {
-        if (value >= 0) explanation += "🔹 عدد طبیعی<br>";
-        explanation += "🔹 عدد صحیح<br>";
-        explanation += "🔹 عدد گویا<br>";
-        explanation += "🔹 عدد حقیقی<br>";
-    } else {
-        explanation += "🔹 عدد اعشاری یا گنگ<br>";
-        explanation += "🔹 عدد حقیقی<br>";
+    // طبیعی
+    if (Number.isInteger(value) && value >= 0) {
+        explanation += "🟢 <b>عدد طبیعی</b><br>▪ چون عددی صحیح و بزرگتر یا مساوی صفر است.<br><br>";
     }
+
+    // صحیح
+    if (Number.isInteger(value)) {
+        explanation += "🟣 <b>عدد صحیح</b><br>▪ چون هیچ بخش اعشاری ندارد.<br><br>";
+    }
+
+    // گویا
+    if (Number.isInteger(value)) {
+        explanation += "🔵 <b>عدد گویا</b><br>▪ چون می‌توان آن را به صورت کسر p/q نوشت؛ مانند: " + value + "/1<br><br>";
+    } else {
+        explanation += "🔵 <b>عدد گویا</b> (اگر اعشار متناهی یا دوره‌ای باشد)<br>▪ چون میتواند به صورت کسر نمایش داده شود.<br><br>";
+    }
+
+    // گنگ
+    if (!Number.isInteger(value) && safeExpression.includes("Math.sqrt")) {
+        explanation += "🔴 <b>عدد گنگ</b><br>▪ چون حاصل رادیکالی است که ریشه عدد کامل نیست.<br>";
+        explanation += "▪ اعشار آن نامتناهی و غیر دوره‌ای است.<br><br>";
+    }
+
+    // حقیقی
+    explanation += "⚫ <b>عدد حقیقی</b><br>▪ چون روی محور اعداد حقیقی قرار دارد.<br>";
 
     result.innerHTML = explanation;
 }
