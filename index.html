@@ -11,14 +11,13 @@
         padding: 20px;
         text-align: center;
     }
-    /* فقط جهت نمایش اعداد و ریاضی از چپ به راست */
     #screen {
         width: 80%;
         height: 50px;
         font-size: 24px;
         margin-bottom: 20px;
-        text-align: left; /* اعداد و ریاضی از چپ به راست */
-        direction: ltr;   /* اعداد و علائم ریاضی از چپ به راست */
+        text-align: left;
+        direction: ltr;
         border: 2px solid #444;
         border-radius: 8px;
         padding-left: 10px;
@@ -75,44 +74,29 @@
 <input id="screen" type="text">
 
 <div class="keyboard">
-    <!-- اعداد -->
     <button onclick="add('7')">7</button>
     <button onclick="add('8')">8</button>
     <button onclick="add('9')">9</button>
-
     <button onclick="add('4')">4</button>
     <button onclick="add('5')">5</button>
     <button onclick="add('6')">6</button>
-
     <button onclick="add('1')">1</button>
     <button onclick="add('2')">2</button>
     <button onclick="add('3')">3</button>
-
     <button onclick="add('0')">0</button>
-
-    <!-- عملگرها -->
     <button onclick="add('.')">.</button>
     <button onclick="add('-')">−</button>
     <button onclick="add('+')">+</button>
     <button onclick="add('/')">/</button>
     <button onclick="add('*')">*</button>
-
-    <!-- رادیکال -->
     <button onclick="add('√')">√</button>
-
-    <!-- توان -->
     <button onclick="add('^')">^</button>
-
-    <!-- پرانتز -->
     <button onclick="add('(')">(</button>
     <button onclick="add(')')">)</button>
-
-    <!-- کنترل -->
     <button onclick="clearInput()">پاک کردن</button>
     <button onclick="categorize()">دسته‌بندی</button>
 </div>
 
-<!-- دکمه راهنمای کیبورد -->
 <button onclick="toggleGuide()" style="margin-top:20px; background:#cce5ff;">راهنمای استفاده از کیبورد</button>
 
 <div id="guide">
@@ -133,23 +117,34 @@
 <div id="result"></div>
 
 <script>
-// افزودن کاراکتر به ورودی
+// افزودن کاراکتر
 function add(c) {
     document.getElementById("screen").value += c;
 }
 
-// پاک کردن ورودی و نتیجه
+// پاک کردن
 function clearInput() {
     document.getElementById("screen").value = "";
     document.getElementById("result").innerHTML = "";
 }
 
-// تبدیل رادیکال و توان به Math
+// تبدیل رادیکال و توان
 function convertRadicals(expr) {
     expr = expr.replace(/√\((.*?)\)/g, "Math.sqrt($1)");
     expr = expr.replace(/√(\d+(\.\d+)?)/g, "Math.sqrt($1)");
     expr = expr.replace(/(\d+(\.\d+)?)\^(\d+(\.\d+)?)/g, "Math.pow($1,$3)");
     return expr;
+}
+
+// بررسی گویا بودن با دقت: عدد صحیح یا کسری ساده
+function isRational(value) {
+    if (Number.isInteger(value)) return true;
+    // بررسی تبدیل به کسر با دقت 1e-10
+    for (let denominator = 1; denominator <= 10000; denominator++) {
+        let numerator = value * denominator;
+        if (Math.abs(numerator - Math.round(numerator)) < 1e-10) return true;
+    }
+    return false;
 }
 
 // دسته‌بندی با ذکر دلیل
@@ -176,15 +171,19 @@ function categorize() {
     explanation += "<b>دسته‌بندی همراه با دلیل:</b><br><br>";
 
     if (Number.isInteger(value) && value >= 0) {
-        explanation += "🟢 <b>عدد طبیعی</b><br>▪ چون عدد صحیح و غیرمنفی است.<br><br>";
+        explanation += "🟢 <b>عدد طبیعی</b><br>▪ عدد صحیح و غیرمنفی است.<br><br>";
     }
     if (Number.isInteger(value)) {
-        explanation += "🟣 <b>عدد صحیح</b><br>▪ چون بخش اعشاری ندارد.<br><br>";
-        explanation += "🔵 <b>عدد گویا</b><br>▪ می‌توان آن را به صورت کسر p/q نوشت.<br><br>";
-    } else {
-        explanation += "🔴 <b>عدد گنگ یا اعشاری</b><br>▪ چون بخش اعشاری نامتناهی یا غیر دوره‌ای است.<br><br>";
+        explanation += "🟣 <b>عدد صحیح</b><br>▪ بخش اعشاری ندارد.<br><br>";
     }
-    explanation += "⚫ <b>عدد حقیقی</b><br>▪ چون روی محور اعداد حقیقی قرار دارد.<br>";
+
+    if (isRational(value)) {
+        explanation += "🔵 <b>عدد گویا</b><br>▪ می‌توان آن را به صورت کسر p/q نوشت و اعشار آن دوره‌ای است.<br><br>";
+    } else {
+        explanation += "🔴 <b>عدد گنگ</b><br>▪ بخش اعشاری نامتناهی غیر دوره‌ای یا رادیکال غیر کامل دارد.<br><br>";
+    }
+
+    explanation += "⚫ <b>عدد حقیقی</b><br>▪ روی محور اعداد حقیقی قرار دارد.<br>";
 
     result.innerHTML = explanation;
 }
