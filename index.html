@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>آزمایشگاه کلاس‌بندی اعداد</title>
+  <title>آزمایشگاه دسته‌بندی اعداد</title>
   <style>
     body {
       font-family: "Vazirmatn", Tahoma, sans-serif;
@@ -59,7 +59,7 @@
       margin-top: 20px;
       font-weight: bold;
       color: #0d9488;
-      text-align: left;
+      text-align: right;
       display: inline-block;
     }
     .error { color: red; }
@@ -74,15 +74,20 @@
       text-align: right;
       color: #0d47a1;
     }
-    .guide ul {
-      margin: 0;
-      padding-left: 20px;
+    .sets {
+      margin-top: 30px;
+      padding: 15px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 8px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
       text-align: right;
     }
   </style>
 </head>
 <body>
-  <h1>آزمایشگاه کلاس‌بندی اعداد</h1>
+  <h1>آزمایشگاه دسته‌بندی اعداد</h1>
   <p>یک عدد وارد کنید:</p>
   
   <input type="text" id="numberInput" placeholder="عدد را اینجا وارد کنید">
@@ -123,12 +128,24 @@
   
   <div id="result" class="result"></div>
   
+  <!-- مجموعه‌های عددی -->
+  <div class="sets">
+    <strong>مجموعه‌های عددی جهانی:</strong>
+    <ul>
+      <li>طبیعی (N): 1, 2, 3, ...</li>
+      <li>حسابی (W): 0, 1, 2, 3, ...</li>
+      <li>صحیح (Z): ..., -2, -1, 0, 1, 2, ...</li>
+      <li>گویا (Q): اعداد به صورت a/b با a,b صحیح و b≠0</li>
+      <li>گنگ (I): مثل √2 ، π</li>
+      <li>حقیقی (R): همهٔ اعداد روی محور حقیقی</li>
+    </ul>
+  </div>
+  
   <script>
     const inputEl = document.getElementById("numberInput");
     const keyboardEl = document.getElementById("keyboard");
     const guideEl = document.getElementById("guide");
 
-    // نمایش کیبورد هنگام کلیک روی ورودی
     inputEl.addEventListener("focus", () => {
       keyboardEl.style.display = "grid";
     });
@@ -172,32 +189,15 @@
         let explanation = "";
         let category = "";
 
+        // بررسی مجموعه‌ها
         if (parsed.type === "sqrt") {
           if (Number.isInteger(num)) {
-            category = num >= 0 ? "طبیعی" : "صحیح";
-            explanation = `رادیکاند مربع کامل بود، پس جذر ${num} عدد صحیح است.`;
+            category = (num >= 1) ? "طبیعی (N)" : (num === 0 ? "حسابی (W)" : "صحیح (Z)");
+            explanation = `جذر ${parsed.radicand} برابر ${num} است که عدد صحیح می‌باشد.`;
           } else {
-            category = "گنگ";
-            explanation = `رادیکاند مربع کامل نبود، پس جذر ${num.toFixed(4)} عدد گنگ است.`;
+            category = "گنگ (I)";
+            explanation = `جذر ${parsed.radicand} برابر ${num.toFixed(4)} است که عدد گنگ می‌باشد.`;
           }
         } else if (parsed.type === "fraction") {
           if (Number.isInteger(num)) {
-            category = num >= 0 ? "طبیعی" : "صحیح";
-            explanation = `کسر ساده شد و نتیجه ${num} عدد صحیح است.`;
-          } else {
-            category = "گویا";
-            explanation = `این عدد به صورت کسر نوشته شده، پس گویا است (${num}).`;
-          }
-        } else {
-          if (Number.isInteger(num)) {
-            category = num >= 0 ? "طبیعی" : "صحیح";
-            explanation = `عدد ${num} بدون بخش اعشاری است، پس صحیح و اگر نامنفی باشد طبیعی است.`;
-          } else {
-            category = "گویا";
-            explanation = `عدد ${num} اعشاری متناهی است، پس می‌توان آن را به صورت کسر نوشت و گویا است.`;
-          }
-        }
-
-        resultDiv.innerHTML = `<strong>دسته:</strong> ${category}<br><strong>دلیل:</strong> ${explanation}`;
-      } catch (err) {
-        result
+            category = (num >= 1) ? "طبیعی (N)" : (num === 0 ? "حسابی (W)" : "صحیح (Z)";
