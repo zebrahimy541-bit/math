@@ -1,75 +1,76 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>آزمایشگاه دسته‌بندی اعداد</title>
+<meta charset="UTF-8" />
+<title>آزمایشگاه پیشرفته دسته‌بندی اعداد</title>
 
 <style>
     body {
         font-family: sans-serif;
-        background: #f0f0f0;
+        background: #eef1f5;
         padding: 20px;
         text-align: center;
     }
     #screen {
-        width: 80%;
-        height: 50px;
-        font-size: 24px;
+        width: 85%;
+        height: 55px;
+        font-size: 28px;
         margin-bottom: 20px;
         text-align: center;
         border: 2px solid #444;
-        border-radius: 8px;
+        border-radius: 10px;
+        padding: 5px;
     }
     .keyboard {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 10px;
-        max-width: 600px;
+        gap: 12px;
+        max-width: 700px;
         margin: auto;
     }
     button {
-        padding: 12px 18px;
-        font-size: 20px;
+        padding: 14px 22px;
+        font-size: 22px;
         cursor: pointer;
-        border-radius: 8px;
-        border: 1px solid #444;
+        border-radius: 10px;
+        border: 1px solid #333;
         background: white;
+        transition: .2s;
     }
     button:hover {
-        background: #ddd;
+        background: #dfe6ee;
     }
     #result {
-        margin-top: 25px;
-        padding: 15px;
+        margin-top: 30px;
+        padding: 20px;
         background: #fff;
-        border-radius: 10px;
+        border-radius: 12px;
         font-size: 20px;
         text-align: right;
+        border: 1px solid #ccc;
     }
 </style>
 </head>
 
 <body>
 
-<h1>آزمایشگاه دسته‌بندی اعداد</h1>
+<h1>آزمایشگاه پیشرفته دسته‌بندی اعداد</h1>
 
 <input id="screen" type="text">
 
 <div class="keyboard">
+
     <!-- اعداد -->
     <button onclick="add('7')">7</button>
     <button onclick="add('8')">8</button>
     <button onclick="add('9')">9</button>
-
     <button onclick="add('4')">4</button>
     <button onclick="add('5')">5</button>
     <button onclick="add('6')">6</button>
-
     <button onclick="add('1')">1</button>
     <button onclick="add('2')">2</button>
     <button onclick="add('3')">3</button>
-
     <button onclick="add('0')">0</button>
 
     <!-- علامت‌ها -->
@@ -82,19 +83,27 @@
     <!-- رادیکال -->
     <button onclick="add('√')">√</button>
 
+    <!-- توان -->
+    <button onclick="add('^')">^</button>
+
+    <!-- ریشه nام -->
+    <button onclick="add('√[')">n√</button>
+
     <!-- پرانتز -->
-    <button onclick="add('(')"> ( </button>
-    <button onclick="add(')')"> ) </button>
+    <button onclick="add('(')">(</button>
+    <button onclick="add(')')">)</button>
 
     <!-- کنترل -->
-    <button onclick="clearInput()">پاک کردن</button>
-    <button onclick="categorize()">دسته‌بندی</button>
+    <button onclick="clearInput()" style="background:#ffb3b3;">پاک کردن</button>
+    <button onclick="categorize()" style="background:#b3ffb3;">دسته‌بندی</button>
+
 </div>
 
 <div id="result"></div>
 
 <script>
-// افزودن کاراکتر
+
+// افزودن به ورودی
 function add(c) {
     document.getElementById("screen").value += c;
 }
@@ -106,70 +115,86 @@ function clearInput() {
 }
 
 
-// ✔ تبدیل √ به Math.sqrt
-function convertRadicals(expr) {
+// تبدیل رادیکال + توان + ریشه nام
+function convert(expr) {
 
-    // √(عبارت)
+    // 1) √(x)
     expr = expr.replace(/√\((.*?)\)/g, "Math.sqrt($1)");
 
-    // √عدد بدون پرانتز
+    // 2) √x
     expr = expr.replace(/√(\d+(\.\d+)?)/g, "Math.sqrt($1)");
+
+    // 3) توان مثل 2^3
+    expr = expr.replace(/(\d+(\.\d+)?)\^(\d+(\.\d+)?)/g, "Math.pow($1,$3)");
+
+    // 4) ریشه nام مثل n√x → √[n]x
+    expr = expr.replace(/√\[(\d+)\](\d+(\.\d+)?)/g, "Math.pow($2,1/$1)");
 
     return expr;
 }
 
 
-// ⭐⭐⭐ تابع دسته‌بندی با دلیل ⭐⭐⭐
+// تابع تشخیص دوره‌ای بودن
+function isRepeatingDecimal(num) {
+    if (Number.isInteger(num)) return false;
+    let s = num.toString();
+    return /(\d)\1{4,}/.test(s); // الگوی ساده دوره‌ای
+}
+
+
+// تابع اصلی دسته‌بندی
 function categorize() {
+
     let input = document.getElementById("screen").value;
     let result = document.getElementById("result");
 
-    let safeExpression = convertRadicals(input);
+    let safe = convert(input);
 
     let value;
     try {
-        value = eval(safeExpression);
+        value = eval(safe);
     } catch {
-        result.innerHTML = "❌ ورودی معتبر نیست.";
+        result.innerHTML = "❌ عبارت معتبر نیست.";
         return;
     }
 
-    if (isNaN(value)) {
-        result.innerHTML = "❌ ورودی معتبر نیست.";
-        return;
-    }
+    // شروع نمایش
+    let text = `<b>مقدار محاسبه‌شده:</b> ${value}<br><br>`;
+    text += `<b>دسته‌بندی همراه با دلیل:</b><br><br>`;
 
-    let explanation = `<b>مقدار نهایی:</b> ${value}<br><br>`;
-    explanation += "<b>دسته‌بندی همراه با دلیل:</b><br><br>";
 
-    // طبیعی
+    // 🔵 طبیعی
     if (Number.isInteger(value) && value >= 0) {
-        explanation += "🟢 <b>عدد طبیعی</b><br>▪ چون عددی صحیح و بزرگتر یا مساوی صفر است.<br><br>";
+        text += "🟢 <b>طبیعی</b><br>▪ چون عددی صحیح و غیرمنفی است.<br><br>";
     }
 
-    // صحیح
+    // 🟣 صحیح
     if (Number.isInteger(value)) {
-        explanation += "🟣 <b>عدد صحیح</b><br>▪ چون هیچ بخش اعشاری ندارد.<br><br>";
+        text += "🟣 <b>صحیح</b><br>▪ چون بخش اعشاری ندارد.<br><br>";
     }
 
-    // گویا
-    if (Number.isInteger(value)) {
-        explanation += "🔵 <b>عدد گویا</b><br>▪ چون می‌توان آن را به صورت کسر p/q نوشت؛ مانند: " + value + "/1<br><br>";
+    // 🔵 گویا یا گنگ
+    if (!Number.isInteger(value)) {
+
+        if (isRepeatingDecimal(value)) {
+            text += "🔵 <b>گویا</b><br>▪ چون اعشار دوره‌ای دارد و قابل نوشتن به صورت p/q است.<br><br>";
+        } else {
+            text += "🔴 <b>گنگ</b><br>▪ چون اعشار نامتناهی غیر دوره‌ای دارد.<br>";
+            if (safe.includes("Math.sqrt")) {
+                text += "▪ حاصل رادیکالی است که مربع کامل نبود.<br><br>";
+            }
+        }
+
     } else {
-        explanation += "🔵 <b>عدد گویا</b> (اگر اعشار متناهی یا دوره‌ای باشد)<br>▪ چون میتواند به صورت کسر نمایش داده شود.<br><br>";
+        text += "🔵 <b>گویا</b><br>▪ چون به صورت کسر p/q مثل " + value + "/1 قابل نوشتن است.<br><br>";
     }
 
-    // گنگ
-    if (!Number.isInteger(value) && safeExpression.includes("Math.sqrt")) {
-        explanation += "🔴 <b>عدد گنگ</b><br>▪ چون حاصل رادیکالی است که ریشه عدد کامل نیست.<br>";
-        explanation += "▪ اعشار آن نامتناهی و غیر دوره‌ای است.<br><br>";
-    }
+    // ⚫ حقیقی
+    text += "⚫ <b>حقیقی</b><br>▪ چون روی محور اعداد حقیقی قابل نمایش است.<br>";
 
-    // حقیقی
-    explanation += "⚫ <b>عدد حقیقی</b><br>▪ چون روی محور اعداد حقیقی قرار دارد.<br>";
-
-    result.innerHTML = explanation;
+    result.innerHTML = text;
 }
+
 </script>
 
 </body>
