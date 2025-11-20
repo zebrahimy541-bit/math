@@ -1,203 +1,151 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>آزمایشگاه دسته‌بندی اعداد</title>
-  <style>
+<meta charset="UTF-8">
+<title>آزمایشگاه دسته‌بندی اعداد</title>
+<style>
     body {
-      font-family: "Vazirmatn", Tahoma, sans-serif;
-      background: #bbdefb;
-      background-image:
-        repeating-linear-gradient(45deg, rgba(255,255,255,0.3) 0px, rgba(255,255,255,0.3) 2px, transparent 2px, transparent 6px),
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.4) 0%, transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.4) 0%, transparent 40%);
-      text-align: center;
-      padding: 40px;
-      color: #0d47a1;
+        font-family: Vazirmatn, sans-serif;
+        background: #f7f7f7;
+        padding: 20px;
+        text-align: center;
     }
-    h1 { color: #0d47a1; }
-    input {
-      padding: 12px;
-      margin: 10px;
-      font-size: 18px;
-      width: 260px;
-      text-align: center;
-      border: 2px solid #0d47a1;
-      border-radius: 8px;
-      color: #0d47a1;
+    #screen {
+        width: 80%;
+        height: 50px;
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .keyboard {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        max-width: 500px;
+        margin: auto;
     }
     button {
-      padding: 12px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 8px;
-      border: none;
-      background: #0d47a1;
-      color: white;
-      transition: 0.2s;
+        padding: 12px 18px;
+        font-size: 20px;
+        cursor: pointer;
+        border-radius: 8px;
+        border: 1px solid #444;
+        background: white;
+        transition: 0.2s;
     }
-    button:hover { background: #1565c0; }
-    .keyboard {
-      display: none;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      max-width: 300px;
-      margin: 20px auto;
+    button:hover {
+        background: #e1e1e1;
     }
-    .keyboard button {
-      background: #e3f2fd;
-      color: #0d47a1;
-      font-weight: bold;
-      border: 1px solid #0d47a1;
-      border-radius: 6px;
+    #result {
+        margin-top: 25px;
+        padding: 15px;
+        background: #fff;
+        border-radius: 10px;
+        font-size: 20px;
     }
-    .keyboard button:hover {
-      background: #0d47a1;
-      color: white;
-    }
-    .result {
-      margin-top: 20px;
-      font-weight: bold;
-      color: #0d9488;
-      text-align: right;
-      display: inline-block;
-    }
-    .error { color: red; }
-    .guide {
-      display: none;
-      margin: 20px auto;
-      max-width: 400px;
-      background: rgba(255,255,255,0.9);
-      border: 1px solid #90caf9;
-      border-radius: 8px;
-      padding: 15px;
-      text-align: right;
-      color: #0d47a1;
-    }
-    .sets {
-      margin-top: 30px;
-      padding: 15px;
-      background: rgba(255,255,255,0.9);
-      border-radius: 8px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      text-align: right;
-    }
-  </style>
+</style>
 </head>
+
 <body>
-  <h1>آزمایشگاه دسته‌بندی اعداد</h1>
-  <p>یک عدد وارد کنید:</p>
-  
-  <input type="text" id="numberInput" placeholder="عدد را اینجا وارد کنید">
-  <button onclick="classifyNumber()">کلاس‌بندی</button>
-  <button onclick="toggleGuide()">راهنما</button>
-  
-  <!-- راهنمای کیبورد -->
-  <div id="guide" class="guide">
-    <strong>راهنمای استفاده از کیبورد مجازی:</strong>
-    <ul>
-      <li>برای وارد کردن رادیکال از دکمه √ استفاده کنید.</li>
-      <li>برای وارد کردن کسر از دکمه / استفاده کنید.</li>
-      <li>برای وارد کردن عدد منفی از دکمه - استفاده کنید.</li>
-      <li>برای وارد کردن اعشار از دکمه . استفاده کنید.</li>
-    </ul>
-  </div>
-  
-  <!-- کیبورد مجازی -->
-  <div id="keyboard" class="keyboard">
-    <button onclick="addChar('7')">7</button>
-    <button onclick="addChar('8')">8</button>
-    <button onclick="addChar('9')">9</button>
-    <button onclick="addChar('/')">/</button>
-    <button onclick="addChar('√')">√</button>
-    
-    <button onclick="addChar('4')">4</button>
-    <button onclick="addChar('5')">5</button>
-    <button onclick="addChar('6')">6</button>
-    <button onclick="addChar('.')">.</button>
-    <button onclick="addChar('-')">-</button>
-    
-    <button onclick="addChar('1')">1</button>
-    <button onclick="addChar('2')">2</button>
-    <button onclick="addChar('3')">3</button>
-    <button onclick="addChar('0')">0</button>
-    <button onclick="clearInput()">پاک</button>
-  </div>
-  
-  <div id="result" class="result"></div>
-  
-  <!-- مجموعه‌های عددی -->
-  <div class="sets">
-    <strong>مجموعه‌های عددی جهانی:</strong>
-    <ul>
-      <li>طبیعی (N): 1, 2, 3, ...</li>
-      <li>حسابی (W): 0, 1, 2, 3, ...</li>
-      <li>صحیح (Z): ..., -2, -1, 0, 1, 2, ...</li>
-      <li>گویا (Q): اعداد به صورت a/b با a,b صحیح و b≠0</li>
-      <li>گنگ (I): مثل √2 ، π</li>
-      <li>حقیقی (R): همهٔ اعداد روی محور حقیقی</li>
-    </ul>
-  </div>
-  
-  <script>
-    const inputEl = document.getElementById("numberInput");
-    const keyboardEl = document.getElementById("keyboard");
-    const guideEl = document.getElementById("guide");
 
-    inputEl.addEventListener("focus", () => {
-      keyboardEl.style.display = "grid";
-    });
+<h1>آزمایشگاه دسته‌بندی اعداد</h1>
 
-    function addChar(c) {
-      inputEl.value += c;
-    }
-    function clearInput() {
-      inputEl.value = "";
-    }
-    function toggleGuide() {
-      guideEl.style.display = guideEl.style.display === "block" ? "none" : "block";
-    }
+<input id="screen" type="text" readonly>
 
-    function parseInput(value) {
-      value = value.trim();
-      if (value.startsWith("√")) {
-        let rad = parseFloat(value.slice(1));
-        if (isNaN(rad)) throw "رادیکال نامعتبر است!";
-        return { type: "sqrt", radicand: rad, value: Math.sqrt(rad) };
-      }
-      if (value.includes("/")) {
-        let parts = value.split("/");
-        if (parts.length !== 2) throw "کسر نامعتبر است!";
-        let a = parseFloat(parts[0]);
-        let b = parseFloat(parts[1]);
-        if (isNaN(a) || isNaN(b) || b === 0) throw "کسر نامعتبر یا تقسیم بر صفر!";
-        return { type: "fraction", value: a / b };
-      }
-      let num = parseFloat(value);
-      if (isNaN(num)) throw "ورودی عددی نیست!";
-      return { type: "number", value: num };
+<div class="keyboard">
+    <!-- اعداد -->
+    <button onclick="add('7')">7</button>
+    <button onclick="add('8')">8</button>
+    <button onclick="add('9')">9</button>
+
+    <button onclick="add('4')">4</button>
+    <button onclick="add('5')">5</button>
+    <button onclick="add('6')">6</button>
+
+    <button onclick="add('1')">1</button>
+    <button onclick="add('2')">2</button>
+    <button onclick="add('3')">3</button>
+
+    <button onclick="add('0')">0</button>
+
+    <!-- نمادها -->
+    <button onclick="add('.')">.</button>
+    <button onclick="add('-')">−</button>
+
+    <!-- رادیکال -->
+    <button onclick="add('√(')">√</button>
+    <button onclick="add(')')">)</button>
+
+    <!-- کنترل -->
+    <button onclick="clearInput()">پاک کردن</button>
+    <button onclick="categorize()">دسته‌بندی</button>
+</div>
+
+<div id="result"></div>
+
+<script>
+// افزودن کاراکتر به نمایشگر
+function add(c) {
+    document.getElementById("screen").value += c;
+}
+
+// پاک کردن
+function clearInput() {
+    document.getElementById("screen").value = "";
+    document.getElementById("result").innerHTML = "";
+}
+
+// تابع تشخیص نوع عدد
+function categorize() {
+    let input = document.getElementById("screen").value;
+    let result = document.getElementById("result");
+
+    // بررسی رادیکال
+    if (input.includes("√")) {
+        try {
+            let inside = input.match(/√\((.*?)\)/)[1];
+            let value = Math.sqrt(eval(inside));
+            if (Number.isInteger(value)) {
+                result.innerHTML = `🔹 **این عدد گنگ نیست**  
+                چون مقدار رادیکال برابر ${value} و یک عدد صحیح است.<br>
+                ➜ دسته: **عدد صحیح، عدد گویا، عدد حقیقی**`;
+            } else {
+                result.innerHTML = `🔹 **این عدد گنگ است**  
+                مقدار رادیکال برابر ${value} است که یک عدد نامتناهی غیر دوره‌ای است.<br>
+                ➜ دسته: **عدد گنگ، عدد حقیقی**`;
+            }
+            return;
+        } catch {
+            result.innerHTML = "ورودی رادیکال نامعتبر است.";
+            return;
+        }
     }
 
-    function classifyNumber() {
-      const input = inputEl.value;
-      const resultDiv = document.getElementById("result");
-      try {
-        const parsed = parseInput(input);
-        const num = parsed.value;
-        let explanation = "";
-        let category = "";
+    // تبدیل به عدد واقعی
+    let num = Number(input);
+    if (isNaN(num)) {
+        result.innerHTML = "❌ ورودی معتبر نیست.";
+        return;
+    }
 
-        // بررسی مجموعه‌ها
-        if (parsed.type === "sqrt") {
-          if (Number.isInteger(num)) {
-            category = (num >= 1) ? "طبیعی (N)" : (num === 0 ? "حسابی (W)" : "صحیح (Z)");
-            explanation = `جذر ${parsed.radicand} برابر ${num} است که عدد صحیح می‌باشد.`;
-          } else {
-            category = "گنگ (I)";
-            explanation = `جذر ${parsed.radicand} برابر ${num.toFixed(4)} است که عدد گنگ می‌باشد.`;
-          }
-        } else if (parsed.type === "fraction") {
-          if (Number.isInteger(num)) {
-            category = (num >= 1) ? "طبیعی (N)" : (num === 0 ? "حسابی (W)" : "صحیح (Z)";
+    let explanation = `مقدار وارد شده: **${num}** <br><br>`;
+
+    // دسته‌بندی
+    if (Number.isInteger(num)) {
+        if (num >= 0) explanation += "🔹 **طبیعی** (چون یک عدد صحیح غیرمنفی است)<br>";
+        explanation += "🔹 **صحیح** (چون بخش اعشاری ندارد)<br>";
+        explanation += "🔹 **گویا** (چون قابل نوشتن به صورت کسر است)<br>";
+        explanation += "🔹 **حقیقی**<br>";
+    } else {
+        explanation += "🔹 **اعشاری** (چون بخش کسری دارد)<br>";
+        explanation += "🔹 **گویا** (اگر اعشار متناهی یا دوره‌ای باشد)<br>";
+        explanation += "🔹 **حقیقی**<br>";
+    }
+
+    result.innerHTML = explanation;
+}
+</script>
+
+</body>
+</html>
