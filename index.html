@@ -10,6 +10,7 @@
         background: #f7f7f7;
         padding: 20px;
         text-align: center;
+        direction: rtl;
     }
     #screen {
         width: 80%;
@@ -23,7 +24,7 @@
         flex-wrap: wrap;
         justify-content: center;
         gap: 10px;
-        max-width: 500px;
+        max-width: 600px;
         margin: auto;
     }
     button {
@@ -33,5 +34,109 @@
         border-radius: 8px;
         border: 1px solid #444;
         background: white;
-        transition: 0.2s;
     }
+    button:hover {
+        background: #ddd;
+    }
+    #result {
+        margin-top: 25px;
+        padding: 15px;
+        background: #fff;
+        border-radius: 10px;
+        font-size: 20px;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>آزمایشگاه دسته‌بندی اعداد</h1>
+
+<input id="screen" type="text" readonly>
+
+<div class="keyboard">
+    <!-- اعداد -->
+    <button onclick="add('7')">7</button>
+    <button onclick="add('8')">8</button>
+    <button onclick="add('9')">9</button>
+
+    <button onclick="add('4')">4</button>
+    <button onclick="add('5')">5</button>
+    <button onclick="add('6')">6</button>
+
+    <button onclick="add('1')">1</button>
+    <button onclick="add('2')">2</button>
+    <button onclick="add('3')">3</button>
+
+    <button onclick="add('0')">0</button>
+
+    <!-- علامت‌ها -->
+    <button onclick="add('.')">.</button>
+    <button onclick="add('-')">−</button>
+    <button onclick="add('+')">+</button>
+    <button onclick="add('/')">/</button>
+    <button onclick="add('*')">*</button>
+
+    <!-- رادیکال -->
+    <button onclick="add('√')">√</button>
+
+    <!-- پرانتز در صورت نیاز -->
+    <button onclick="add('(')">(</button>
+    <button onclick="add(')')">)</button>
+
+    <!-- کنترل -->
+    <button onclick="clearInput()">پاک کردن</button>
+    <button onclick="categorize()">دسته‌بندی</button>
+</div>
+
+<div id="result"></div>
+
+<script>
+// افزودن کاراکتر
+function add(c) {
+    document.getElementById("screen").value += c;
+}
+
+// پاک کردن
+function clearInput() {
+    document.getElementById("screen").value = "";
+    document.getElementById("result").innerHTML = "";
+}
+
+
+// ✔ تبدیل √x به Math.sqrt(x) — بدون نیاز به پرانتز
+function convertRadicals(expr) {
+
+    // حالت √عدد ساده مثل √2 یا √2.5
+    expr = expr.replace(/√(\d+(\.\d+)?)/g, "Math.sqrt($1)");
+
+    // حالت √(عبارت)
+    expr = expr.replace(/√\(([^()]*)\)/g, "Math.sqrt($1)");
+
+    return expr;
+}
+
+
+function categorize() {
+    let input = document.getElementById("screen").value;
+    let result = document.getElementById("result");
+
+    let safeExpression = convertRadicals(input);
+
+    let value;
+    try {
+        value = eval(safeExpression);
+    } catch (e) {
+        result.innerHTML = "❌ ورودی معتبر نیست.";
+        return;
+    }
+
+    if (isNaN(value)) {
+        result.innerHTML = "❌ ورودی معتبر نیست.";
+        return;
+    }
+
+    let explanation = `مقدار نهایی: <b>${value}</b><br><br>`;
+
+    // دسته‌بندی عدد
+    if (Number.isInteger(value)) {
