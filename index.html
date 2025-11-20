@@ -2,58 +2,51 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>آزمایشگاه دسته‌بندی اعداد</title>
+  <title>آزمایشگاه کلاس‌بندی اعداد</title>
   <style>
     body {
-      font-family: "Tahoma", "Vazirmatn", sans-serif;
-      margin: 0;
+      font-family: Tahoma, sans-serif;
+      background: #f0f4f8;
       text-align: center;
       padding: 40px;
-      color: #0d47a1;
-      background: #bbdefb;
-      background-image:
-        repeating-linear-gradient(45deg, rgba(255,255,255,0.3) 0px, rgba(255,255,255,0.3) 2px, transparent 2px, transparent 6px),
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.4) 0%, transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.4) 0%, transparent 40%);
     }
-    h1 { color: #0d47a1; }
+    h1 { color: #0077b6; }
     input {
       padding: 12px;
       margin: 10px;
       font-size: 18px;
       width: 260px;
       text-align: center;
-      border: 2px solid #0d47a1;
+      border: 2px solid #0077b6;
       border-radius: 8px;
-      color: #0d47a1;
     }
     button {
-      padding: 10px;
+      padding: 12px;
       font-size: 16px;
       cursor: pointer;
       border-radius: 8px;
       border: none;
-      background: #0d47a1;
+      background: #0077b6;
       color: white;
       transition: 0.2s;
     }
-    button:hover { background: #1565c0; }
+    button:hover { background: #0096c7; }
     .keyboard {
-      display: none;
+      display: none; /* مخفی پیش‌فرض */
       grid-template-columns: repeat(5, 1fr);
       gap: 10px;
       max-width: 300px;
       margin: 20px auto;
     }
     .keyboard button {
-      background: #e3f2fd;
-      color: #0d47a1;
+      background: #e0f7fa;
+      color: #0077b6;
       font-weight: bold;
-      border: 1px solid #0d47a1;
+      border: 1px solid #0077b6;
       border-radius: 6px;
     }
     .keyboard button:hover {
-      background: #0d47a1;
+      background: #0077b6;
       color: white;
     }
     .result {
@@ -64,52 +57,14 @@
       display: inline-block;
     }
     .error { color: red; }
-    .guide {
-      display: none;
-      margin: 20px auto;
-      max-width: 500px;
-      background: rgba(255,255,255,0.9);
-      border: 1px solid #90caf9;
-      border-radius: 8px;
-      padding: 15px;
-      text-align: right;
-      color: #0d47a1;
-    }
-    .guide ul {
-      margin: 0;
-      padding-left: 20px;
-      text-align: right;
-    }
-    .sets {
-      margin-top: 30px;
-      padding: 15px;
-      background: rgba(255,255,255,0.9);
-      border-radius: 8px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      text-align: right;
-    }
   </style>
 </head>
 <body>
-  <h1>آزمایشگاه دسته‌بندی اعداد</h1>
+  <h1>آزمایشگاه کلاس‌بندی اعداد</h1>
   <p>یک عدد وارد کنید:</p>
   
-  <input type="text" id="numberInput" placeholder="عدد را در اینجا وارد کنید">
+  <input type="text" id="numberInput" placeholder="مثال: 5 یا 3/4 یا √2 یا -2.5">
   <button onclick="classifyNumber()">کلاس‌بندی</button>
-  <button onclick="toggleGuide()">راهنما</button>
-  
-  <!-- راهنمای ورودی -->
-  <div id="guide" class="guide">
-    <strong>راهنمای ورودی:</strong>
-    <ul>
-      <li>اعداد صحیح: 5 ، -3 ، 0</li>
-      <li>اعداد اعشاری: 2.5 ، -0.125</li>
-      <li>اعداد کسری: 3/4 ، -7/2</li>
-      <li>اعداد رادیکالی: √2 ، √16</li>
-    </ul>
-  </div>
   
   <!-- کیبورد مجازی -->
   <div id="keyboard" class="keyboard">
@@ -134,36 +89,17 @@
   
   <div id="result" class="result"></div>
   
-  <!-- مجموعه‌های عددی -->
-  <div class="sets">
-    <strong>مجموعه‌های عددی جهانی:</strong>
-    <ul>
-      <li>طبیعی (N): 0, 1, 2, 3, ...</li>
-      <li>صحیح (Z): ..., -2, -1, 0, 1, 2, ...</li>
-      <li>گویا (Q): اعداد به صورت a/b با a,b صحیح و b≠0</li>
-      <li>گنگ (I): مثل √2 ، π</li>
-      <li>حقیقی (R): همهٔ اعداد روی محور حقیقی</li>
-    </ul>
-  </div>
-  
   <script>
-    const inputEl = document.getElementById("numberInput");
-    const keyboardEl = document.getElementById("keyboard");
-    const guideEl = document.getElementById("guide");
-
     // نمایش کیبورد هنگام کلیک روی ورودی
-    inputEl.addEventListener("focus", () => {
-      keyboardEl.style.display = "grid";
+    document.getElementById("numberInput").addEventListener("focus", () => {
+      document.getElementById("keyboard").style.display = "grid";
     });
 
     function addChar(c) {
-      inputEl.value += c;
+      document.getElementById("numberInput").value += c;
     }
     function clearInput() {
-      inputEl.value = "";
-    }
-    function toggleGuide() {
-      guideEl.style.display = guideEl.style.display === "block" ? "none" : "block";
+      document.getElementById("numberInput").value = "";
     }
 
     function parseInput(value) {
@@ -187,7 +123,7 @@
     }
 
     function classifyNumber() {
-      const input = inputEl.value;
+      const input = document.getElementById("numberInput").value;
       const resultDiv = document.getElementById("result");
       try {
         const parsed = parseInput(input);
@@ -210,3 +146,22 @@
           } else {
             category = "گویا";
             explanation = `این عدد به صورت کسر نوشته شده، پس گویا است (${num}).`;
+          }
+        } else {
+          if (Number.isInteger(num)) {
+            category = num >= 0 ? "طبیعی" : "صحیح";
+            explanation = `عدد ${num} بدون بخش اعشاری است، پس صحیح و اگر نامنفی باشد طبیعی است.`;
+          } else {
+            category = "گویا";
+            explanation = `عدد ${num} اعشاری متناهی است، پس می‌توان آن را به صورت کسر نوشت و گویا است.`;
+          }
+        }
+
+        resultDiv.innerHTML = `<strong>دسته:</strong> ${category}<br><strong>دلیل:</strong> ${explanation}`;
+      } catch (err) {
+        resultDiv.innerHTML = `<span class="error">خطا: ${err}</span>`;
+      }
+    }
+  </script>
+</body>
+</html>
