@@ -161,7 +161,7 @@ function clearInput() {
 }
 
 function convertRadicals(expr) {
-    expr = expr.replace(/(\d+(\.\d+)?)?√\((.*?)\)/g, function(match, coeff, _, inner){
+    expr = expr.replace(/(\d+(\.\d+)?)?√\\((.*?)\\)/g, function(match, coeff, _, inner){
         if(!coeff) coeff = 1;
         return "(" + coeff + "*Math.sqrt(" + inner + "))";
     });
