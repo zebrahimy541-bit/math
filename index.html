@@ -7,7 +7,8 @@
 <style>
 body {
     font-family: sans-serif;
-    background: #a0d8f1; /* آبی روشن */
+    /* تغییر مورد نظر شما: آبی خیلی تیره */
+    background: #000033; 
     padding: 20px;
     text-align: center;
     background-image: 
@@ -90,7 +91,8 @@ button:hover {
 
 <body>
 
-<h1>آزمایشگاه شناسایی نوع عدد</h1>
+<!-- رنگ متن عنوان به طلایی حفظ شد -->
+<h1 style="color: #FFD700;">آزمایشگاه شناسایی نوع عدد</h1>
 
 <div id="tips">
 <b>نکات مهم:</b><br>
@@ -127,7 +129,6 @@ button:hover {
     <button onclick="add(')')">)</button>
 
     <button onclick="clearInput()">پاک کردن</button>
-    <!-- **تغییر در این خط اعمال شد: 'categorize()' به 'identify()' تغییر کرد و متن دکمه به 'شناسایی'** -->
     <button onclick="identify()">شناسایی</button>
 </div>
 
@@ -182,7 +183,6 @@ function isRational(value) {
     return false;
 }
 
-// **تغییر در توابع جاوااسکریپت برای تطابق با دکمه جدید**
 function identify() {
     let input = document.getElementById("screen").value;
     let result = document.getElementById("result");
@@ -223,9 +223,9 @@ function identify() {
 
 function toggleGuide(){
     let g = document.getElementById("guide");
-    g.style.display = (g.style.display==="none") ? "block" : "none";
+    g.style.dis = (g.style.display==="none") ? "block" : "none";
 }
 </script>
 
 </body>
-</ht
+</html>
