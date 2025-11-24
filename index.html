@@ -7,7 +7,7 @@
 <style>
 body {
     font-family: sans-serif;
-    /* رنگ پس‌زمینه آبی خیلی تیره */
+    /* تغییر مورد نظر شما: آبی خیلی تیره */
     background: #000033; 
     padding: 20px;
     text-align: center;
@@ -55,7 +55,7 @@ button:hover {
     text-align: right;
 }
 #guide {
-    display: none; /* این کلید باز شدن راهنما است */
+    display: none;
     margin-top: 15px;
     padding: 12px;
     background: #f9f9f9;
@@ -91,8 +91,16 @@ button:hover {
 
 <body>
 
-<!-- عنوان طلایی -->
+<!-- رنگ متن عنوان به طلایی حفظ شد -->
 <h1 style="color: #FFD700;">آزمایشگاه شناسایی نوع عدد</h1>
+
+<div id="tips">
+<b>نکات مهم:</b><br>
+▪ برای جمع، تفریق یا تقسیم رادیکال‌ها، عملیات را داخل پرانتز قرار دهید تا اولویت‌ها رعایت شود.<br>
+▪ برای ضرب عدد پشت رادیکال، از دکمه ضرب (*) استفاده کنید. مثال: 7*√16 (اول √16 سپس ضرب در 7).<br>
+▪ ترتیب عملیات ریاضی و پرانتزها را رعایت کنید.<br>
+▪ می‌توانید چند رادیکال و عملیات ترکیبی را با پرانتزهای مناسب وارد کنید.
+</div>
 
 <input id="screen" type="text">
 
@@ -124,10 +132,8 @@ button:hover {
     <button onclick="identify()">شناسایی</button>
 </div>
 
-<!-- دکمه راهنما که تابع toggleGuide را فراخوانی می‌کند -->
 <button onclick="toggleGuide()" style="margin-top:20px; background:#cce5ff;">راهنمای استفاده از کیبورد</button>
 
-<!-- بخش راهنما (display: none در CSS) -->
 <div id="guide">
 <b>راهنمای کیبورد:</b><br><br>
 <b>اعداد (0-9):</b> برای وارد کردن اعداد.<br>
@@ -144,15 +150,6 @@ button:hover {
 </div>
 
 <div id="result"></div>
-
-<!-- بخش نکات مهم (Tips) -->
-<div id="tips" style="margin-top: 30px;">
-<b>نکات مهم:</b><br>
-▪ برای جمع، تفریق یا تقسیم رادیکال‌ها، عملیات را داخل پرانتز قرار دهید تا اولویت‌ها رعایت شود.<br>
-▪ برای ضرب عدد پشت رادیکال، از دکمه ضرب (*) استفاده کنید. مثال: 7*√16 (اول √16 سپس ضرب در 7).<br>
-▪ ترتیب عملیات ریاضی و پرانتزها را رعایت کنید.<br>
-▪ می‌توانید چند رادیکال و عملیات ترکیبی را با پرانتزهای مناسب وارد کنید.
-</div>
 
 <script>
 function add(c) {
@@ -224,9 +221,9 @@ function identify() {
     result.innerHTML = explanation;
 }
 
-// این تابع دقیقاً برای حل مشکل راهنما طراحی شده است:
-function toggleGuide    let g = document.getElementById("guide");
-    g.style.display = (g.style.display==="none") ? "block" : "none";
+function toggleGuide(){
+    let g = document.getElementById("guide");
+    g.style.dis = (g.style.display==="none") ? "block" : "none";
 }
 </script>
 
