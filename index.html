@@ -1,246 +1,236 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ماشین حساب ریاضی با رادیکال</title>
-    <style>
-        body {
-            font-family: Tahoma, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f0f0f0;
-        }
-        .calculator {
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            width: 350px;
-        }
-        #screen {
-            width: 100%;
-            height: 60px;
-            background-color: #eee;
-            border: none;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            padding: 0 15px;
-            font-size: 1.5em;
-            text-align: right;
-            box-sizing: border-box;
-        }
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-        button {
-            padding: 15px;
-            font-size: 1.2em;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        button:hover {
-            opacity: 0.9;
-        }
-        .operator {
-            background-color: #ff9500;
-            color: white;
-        }
-        .number, .dot {
-            background-color: #d4d4d2;
-        }
-        .function {
-            background-color: #a6a6a6;
-        }
-        #equals {
-            grid-column: span 2;
-            background-color: #007aff;
-            color: white;
-        }
-        #result-area {
-            margin-top: 20px;
-            padding: 10px;
-            border-top: 1px solid #ccc;
-            font-size: 1.1em;
-            white-space: pre-wrap;
-            text-align: right;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>آزمایشگاه شناسایی نوع عدد</title>
+
+<style>
+body {
+    font-family: sans-serif;
+    /* رنگ پس‌زمینه آبی خیلی تیره حفظ شده است */
+    background: #000033; 
+    padding: 20px;
+    text-align: center;
+    background-image: 
+        linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+}
+#screen {
+    width: 80%;
+    height: 50px;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: left;
+    direction: ltr;
+    border: 2px solid #444;
+    border-radius: 8px;
+    padding-left: 10px;
+}
+.keyboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 600px;
+    margin: auto;
+}
+button {
+    padding: 12px 18px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: white;
+}
+button:hover {
+    background: #ddd;
+}
+#result {
+    margin-top: 25px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 10px;
+    font-size: 20px;
+    text-align: right;
+}
+#guide {
+    display: none; /* این استایل اطمینان می‌دهد که راهنما در ابتدا پنهان است */
+    margin-top: 15px;
+    padding: 12px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 18px;
+    text-align: right;
+    max-width: 600px;
+    margin: 15px auto 0 auto;
+}
+#guide b {
+    color: #2a4d8f;
+}
+#tips {
+    width: 90%;
+    max-width: 500px;
+    margin: 10px auto 30px auto;
+    padding: 12px;
+    background: #ffd966;
+    border: 1px solid #f0c36d;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: right;
+}
+@media (max-width: 600px) {
+    #tips {
+        font-size: 13px;
+        width: 95%;
+    }
+}
+</style>
 </head>
+
 <body>
 
-<div class="calculator">
-    <input type="text" id="screen" value="" placeholder="عبارت ریاضی...">
-    <div class="buttons">
-        <button class="function" onclick="appendInput('√')">√</button>
-        <button class="function" onclick="appendInput('^')">^</button>
-        <button class="function" onclick="clearScreen()">C</button>
-        <button class="operator" onclick="appendInput('/')">/</button>
+<!-- متن جدید اضافه شده با استایل طلایی -->
+<h2 style="color: #FFD700;">ستایش عبدل نسب کلاس 9/4 مدرسه پردیس</h2>
 
-        <button class="number" onclick="appendInput('7')">7</button>
-        <button class="number" onclick="appendInput('8')">8</button>
-        <button class="number" onclick="appendInput('9')">9</button>
-        <button class="operator" onclick="appendInput('*')">×</button>
+<!-- عنوان اصلی حفظ شده -->
+<h1 style="color: #FFD700;">آزمایشگاه شناسایی نوع عدد</h1>
 
-        <button class="number" onclick="appendInput('4')">4</button>
-        <button class="number" onclick="appendInput('5')">5</button>
-        <button class="number" onclick="appendInput('6')">6</button>
-        <button class="operator" onclick="appendInput('-')">-</button>
+<input id="screen" type="text">
 
-        <button class="number" onclick="appendInput('1')">1</button>
-        <button class="number" onclick="appendInput('2')">2</button>
-        <button class="number" onclick="appendInput('3')">3</button>
-        <button class="operator" onclick="appendInput('+')">+</button>
+<div class="keyboard">
+    <button onclick="add('1')">1</button>
+    <button onclick="add('2')">2</button>
+    <button onclick="add('3')">3</button>
+    <button onclick="add('4')">4</button>
+    <button onclick="add('5')">5</button>
+    <button onclick="add('6')">6</button>
+    <button onclick="add('7')">7</button>
+    <button onclick="add('8')">8</button>
+    <button onclick="add('9')">9</button>
+    <button onclick="add('0')">0</button>
 
-        <button class="function" onclick="appendInput('(')">(</button>
-        <button class="number" onclick="appendInput('0')">0</button>
-        <button class="function" onclick="appendInput(')')">)</button>
-        <button id="equals" onclick="identify()">=</button>
-    </div>
-    <div id="result-area"></div>
+    <button onclick="add('.')">.</button>
+    <button onclick="add('-')">−</button>
+    <button onclick="add('+')">+</button>
+    <button onclick="add('*')">*</button>
+    <button onclick="add('/')">/</button>
+
+    <button onclick="add('√')">√</button>
+    <button onclick="add('^')">^</button>
+
+    <button onclick="add('(')">(</button>
+    <button onclick="add(')')">)</button>
+
+    <button onclick="clearInput()">پاک کردن</button>
+    <button onclick="identify()">شناسایی</button>
+</div>
+
+<!-- فراخوانی تابع در دکمه (همانند نسخه قبلی) -->
+<button onclick="toggleGuide()" style="margin-top:20px; background:#cce5ff;">راهنمای استفاده از کیبورد</button>
+
+<!-- بخش راهنما -->
+<div id="guide">
+<b>راهنمای کیبورد:</b><br><br>
+<b>اعداد (0-9):</b> برای وارد کردن اعداد.<br>
+<b>.</b> → برای اعداد اعشاری.<br>
+<b>+</b> → جمع<br>
+<b>−</b> → تفریق<br>
+<b>*</b> → ضرب<br>
+<b>/</b> → تقسیم<br>
+<b>√</b> → رادیکال. مثال صحیح: 7*√16 (اول رادیکال، سپس عدد داخل).<br>
+<b>^</b> → توان. مثال صحیح: 2^3 = 8 (از چپ به راست).<br>
+<b>( و )</b> → برای تعیین اولویت عملیات.<br>
+<b>پاک کردن</b> → پاک کردن ورودی.<br>
+<b>شناسایی</b> → محاسبه مقدار و تعیین نوع عدد همراه دلیل.
+</div>
+
+<div id="result"></div>
+
+<!-- بخش نکات مهم (Tips) در انتها حفظ شده است -->
+<div id="tips" style="margin-top: 30px;">
+<b>نکات مهم:</b><br>
+▪ برای جمع، تفریق یا تقسیم رادیکال‌ها، عملیات را داخل پرانتز قرار دهید تا اولویت‌ها رعایت شود.<br>
+▪ برای ضرب عدد پشت رادیکال، از دکمه ضرب (*) استفاده کنید. مثال: 7*√16 (اول √16 سپس ضرب در 7).<br>
+▪ ترتیب عملیات ریاضی و پرانتزها را رعایت کنید.<br>
+▪ می‌توانید چند رادیکال و عملیات ترکیبی را با پرانتزهای مناسب وارد کنید.
 </div>
 
 <script>
-    const screenInput = document.getElementById('screen');
-    const resultArea = document.getElementById('result-area');
+function add(c) {
+    document.getElementById("screen").value += c;
+}
 
-    function appendInput(value) {
-        screenInput.value += value;
+function clearInput() {
+    document.getElementById("screen").value = "";
+    document.getElementById("result").innerHTML = "";
+}
+
+function convertRadicals(expr) {
+    expr = expr.replace(/(\d+(\.\d+)?)?√\((.*?)\)/g, function(match, coeff, _, inner){
+        if(!coeff) coeff = 1;
+        return "(" + coeff + "*Math.sqrt(" + inner + "))";
+    });
+    expr = expr.replace(/(\d+(\.\d+)?)?√(\d+(\.\d+)?)/g, function(match, coeff, _, num){
+        if(!coeff) coeff = 1;
+        return "(" + coeff + "*Math.sqrt(" + num + "))";
+    });
+    expr = expr.replace(/(\d+(\.\d+)?)\^(\d+(\.\d+)?)/g,"Math.pow($1,$3)");
+    return expr;
+}
+
+function isRational(value) {
+    if (Number.isInteger(value)) return true;
+    for (let d=1; d<=10000; d++){
+        let n = value*d;
+        if (Math.abs(n - Math.round(n)) < 1e-10) return true;
+    }
+    return false;
+}
+
+function identify() {
+    let input = document.getElementById("screen").value;
+    let result = document.getElementById("result");
+
+    let safeExpr = convertRadicals(input);
+
+    let value;
+    try {
+        value = eval(safeExpr);
+    } catch {
+        result.innerHTML = "❌ ورودی معتبر نیست.";
+        return;
     }
 
-    function clearScreen() {
-        screenInput.value = '';
-        resultArea.innerHTML = '';
+    if (isNaN(value)){
+        result.innerHTML = "❌ ورودی معتبر نیست.";
+        return;
     }
 
-    /**
-     * تبدیل نمادهای ریاضی به توابع قابل اجرای جاوااسکریپت
-     * - √ -> Math.sqrt()
-     * - ^ -> Math.pow()
-     * @param {string} expr - عبارت ورودی از صفحه
-     * @returns {string} - عبارت تبدیل شده برای eval
-     */
-    function convertRadicals(expr) {
-        let convertedExpr = expr;
+    let explanation = `<b>مقدار نهایی:</b> ${value}<br><br>`;
+    explanation += "<b>دسته‌بندی همراه دلیل:</b><br><br>";
 
-        // 1. مدیریت توان (^) به Math.pow(base, exponent)
-        // این الگو به دنبال X^Y است که X و Y می‌توانند اعداد یا عبارت‌های داخل پرانتز باشند.
-        // برای سادگی و جلوگیری از پیچیدگی بیش از حد پارس کردن در یک خط، ابتدا توان‌ها را مدیریت می‌کنیم
-        // اما این روش همچنان مستعد خطاست. برای رفع مشکل شما، تمرکز بر روی رادیکال می‌گذاریم.
-
-        // الگوی رادیکال اصلاح شده: به دنبال √X^Y یا √(X^Y) یا √X
-        // ما فرض می‌کنیم که کاربر ورودی را به شکل (√A)^B یا √(A^B) وارد کرده است.
-
-        // A. حالت (√A)^B (رادیکال ابتدا، سپس توان):
-        // این حالت را به صورت (Math.pow(Math.sqrt(A), B)) ترجمه می‌کنیم.
-        convertedExpr = convertedExpr.replace(/\(\s*√\s*([0-9.]+)\s*\)\s*\^\s*([0-9.]+)\s*/g, (match, base, exponent) => {
-            return `Math.pow(Math.sqrt(${base}), ${exponent})`;
-        });
-
-        // B. حالت √(A^B) (ترکیب ساده داخل رادیکال):
-        // اگر توان داخل رادیکال باشد، ابتدا آن را محاسبه می‌کنیم.
-        convertedExpr = convertedExpr.replace(/√\s*\(\s*([0-9.]+)\s*\^\s*([0-9.]+)\s*\)/g, (match, base, exponent) => {
-            // ابتدا توان داخل را محاسبه می‌کنیم، سپس رادیکال آن را می‌گیریم.
-            return `Math.sqrt(Math.pow(${base}, ${exponent}))`;
-        });
-
-        // C. حالت ساده √X^Y (که مشکل اصلی شما بود)
-        // اگر ورودی به صورت "√9^2" باشد، پارسر استاندارد جاوااسکریپت ممکن است آن را به درستی نفهمد.
-        // ما آن را به قوی‌ترین شکل ممکن یعنی (√A)^B یا √(A^B) ترجمه می‌کنیم.
-        // اگر کاربر "√9^2" را وارد کرده، ما فرض می‌کنیم منظور √ (9^2) بوده است.
-        convertedExpr = convertedExpr.replace(/√\s*([0-9.]+)\s*\^\s*([0-9.]+)/g, (match, base, exponent) => {
-             // تبدیل به √(base^exponent)
-            return `Math.sqrt(Math.pow(${base}, ${exponent}))`;
-        });
-
-        // D. رادیکال ساده: √X
-        convertedExpr = convertedExpr.replace(/√\s*([0-9.]+)/g, (match, base) => {
-            return `Math.sqrt(${base})`;
-        });
-
-        // 2. تبدیل نماد توان به Math.pow برای عبارات باقیمانده
-        // این تبدیل باید پس از رادیکال انجام شود تا ترتیب درستی حفظ شود.
-        // این الگو فقط برای توان‌های ساده‌ای که در بالا مدیریت نشده‌اند کاربرد دارد.
-        convertedExpr = convertedExpr.replace(/([0-9.]+)\s*\^\s*([0-9.]+)/g, (match, base, exponent) => {
-            // اگر base یک تابع Math (مثل Math.sqrt) نباشد، آن را تبدیل کن
-            if (!match.includes('Math.sqrt')) {
-                 return `Math.pow(${base}, ${exponent})`;
-            }
-            return match; // اگر قبلاً با رادیکال ترکیب شده، تغییر نده
-        });
-
-        // جایگزینی ^ با Math.pow در حالتی که به صورت (X)^Y باشد و در بالا پوشش داده نشده
-        convertedExpr = convertedExpr.replace(/Math.pow\(([^)]+)\)\s*\^\s*([0-9.]+)/g, (match, base, exponent) => {
-            // جلوگیری از تبدیل تودرتوی نامناسب
-            return match;
-        });
-
-
-        return convertedExpr;
+    if (Number.isInteger(value) && value >=0){
+        explanation += "🟢 <b>طبیعی</b>: چون صحیح و غیرمنفی است.<br><br>";
     }
-
-
-    /**
-     * شناسایی و دسته‌بندی عدد محاسبه شده
-     * @param {number} num - عدد نتیجه
-     */
-    function identify(num) {
-        let categories = [];
-        if (Number.isInteger(num) && num >= 0) {
-            categories.push("طبیعی (Natural)");
-        }
-        if (Number.isInteger(num)) {
-            categories.push("صحیح (Integer)");
-        }
-        if (Number.isFinite(num) && (num % 1 === 0 || num % 1 !== 0)) {
-            categories.push("گویا (Rational)");
-        }
-        if (Number.isFinite(num)) {
-            categories.push("حقیقی (Real)");
-        }
-
-        const categoryStr = categories.join(", ");
-        return `نوع عدد: ${categoryStr}`;
+    if (Number.isInteger(value)){
+        explanation += "🟣 <b>صحیح</b>: چون بخش اعشاری ندارد.<br><br>";
     }
-
-    function identify() {
-        let expression = screenInput.value.trim();
-        if (!expression) {
-            resultArea.innerHTML = "لطفاً عبارتی وارد کنید.";
-            return;
-        }
-
-        // تبدیل نمادها به توابع جاوااسکریپت
-        let jsExpression = convertRadicals(expression);
-
-        // افزودن پرانتز برای اطمینان از اولویت اگر ورودی فقط یک عدد باشد
-        if (!isNaN(parseFloat(expression)) && isFinite(expression)) {
-             jsExpression = expression;
-        }
-
-
-        let finalResult;
-        try {
-            // استفاده از eval برای محاسبه نهایی
-            // این کار ممکن است خطرناک باشد، اما در محیط کنترل شده ماشین حساب داخلی امن است.
-            finalResult = eval(jsExpression);
-
-            if (typeof finalResult === 'number' && isFinite(finalResult)) {
-                const classification = identify(finalResult);
-                resultArea.innerHTML = `مقدار نهایی: ${finalResult.toFixed(1)}\n${classification}`;
-            } else {
-                resultArea.innerHTML = "خطا در محاسبه یا نتیجه نامعتبر است.";
-            }
-        } catch (error) {
-            resultArea.innerHTML = `خطای محاسباتی: ${error.message}\nعبارت تبدیل شده: ${jsExpression}`;
-        }
+    if (isRational(value)){
+        explanation += "🔵 <b>گویا</b>: اعشار متناهی یا دوره‌ای دارد و قابل نوشتن به صورت کسر p/q است.<br><br>";
+    } else {
+        explanation += "🔴 <b>گنگ</b>: اعشار نامتناهی غیر دوره‌ای یا رادیکال غیر کامل دارد.<br><br>";
     }
+    explanation += "⚫ <b>حقیقی</b>: روی محور اعداد حقیقی قرار دارد.";
+
+    result.innerHTML = explanation;
+}
+
+function toggleGuide(){
+    let g = document.getElementById("guide");
+    g.style.display = (g.style.display==="none") ? "block" : "none";
+}
 </script>
 
 </body>
