@@ -55,7 +55,7 @@ button:hover {
     text-align: right;
 }
 #guide {
-    display: none;
+    display: none; /* این خط اطمینان می‌دهد که در حالت پیش‌فرض مخفی است */
     margin-top: 15px;
     padding: 12px;
     background: #f9f9f9;
@@ -224,7 +224,7 @@ function identify() {
 
 function toggleGuide(){
     let g = document.getElementById("guide");
-    g.style.display = (g.style.display==="none") ? "block" : "none";
+    g.style.display = (g.stdisplay==="none") ? "block" : "none";
 }
 </script>
 
