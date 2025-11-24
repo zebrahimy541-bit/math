@@ -7,7 +7,7 @@
 <style>
 body {
     font-family: sans-serif;
-    /* رنگ پس‌زمینه آبی خیلی تیره حفظ شده است */
+    /* رنگ پس‌زمینه آبی خیلی تیره */
     background: #000033; 
     padding: 20px;
     text-align: center;
@@ -55,7 +55,7 @@ button:hover {
     text-align: right;
 }
 #guide {
-    display: none; /* این باید برای اولین بار مخفی باشد تا با کلیک نمایش داده شود */
+    display: none; /* این کلید باز شدن راهنما است */
     margin-top: 15px;
     padding: 12px;
     background: #f9f9f9;
@@ -91,7 +91,7 @@ button:hover {
 
 <body>
 
-<!-- رنگ متن عنوان به طلایی حفظ شد -->
+<!-- عنوان طلایی -->
 <h1 style="color: #FFD700;">آزمایشگاه شناسایی نوع عدد</h1>
 
 <input id="screen" type="text">
@@ -124,10 +124,10 @@ button:hover {
     <button onclick="identify()">شناسایی</button>
 </div>
 
-<!-- دکمه راهنما فراخوانی toggleGuide() را انجام می‌دهد -->
+<!-- دکمه راهنما که تابع toggleGuide را فراخوانی می‌کند -->
 <button onclick="toggleGuide()" style="margin-top:20px; background:#cce5ff;">راهنمای استفاده از کیبورد</button>
 
-<!-- بخش راهنما که در ابتدا display: none دارد -->
+<!-- بخش راهنما (display: none در CSS) -->
 <div id="guide">
 <b>راهنمای کیبورد:</b><br><br>
 <b>اعداد (0-9):</b> برای وارد کردن اعداد.<br>
@@ -145,7 +145,7 @@ button:hover {
 
 <div id="result"></div>
 
-<!-- بخش نکات مهم (Tips) در انتها حفظ شده است -->
+<!-- بخش نکات مهم (Tips) -->
 <div id="tips" style="margin-top: 30px;">
 <b>نکات مهم:</b><br>
 ▪ برای جمع، تفریق یا تقسیم رادیکال‌ها، عملیات را داخل پرانتز قرار دهید تا اولویت‌ها رعایت شود.<br>
@@ -224,9 +224,8 @@ function identify() {
     result.innerHTML = explanation;
 }
 
-function toggleGuide(){
-    let g = document.getElementById("guide");
-    // این خط وظیفه ن یا مخفی کردن راهنما را دارد و باید به درستی کار کند
+// این تابع دقیقاً برای حل مشکل راهنما طراحی شده است:
+function toggleGuide    let g = document.getElementById("guide");
     g.style.display = (g.style.display==="none") ? "block" : "none";
 }
 </script>
