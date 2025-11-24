@@ -127,7 +127,8 @@ button:hover {
     <button onclick="add(')')">)</button>
 
     <button onclick="clearInput()">پاک کردن</button>
-    <button onclick="categorize()">دسته‌بندی</button>
+    <!-- **تغییر در این خط اعمال شد: 'categorize()' به 'identify()' تغییر کرد و متن دکمه به 'شناسایی'** -->
+    <button onclick="identify()">شناسایی</button>
 </div>
 
 <button onclick="toggleGuide()" style="margin-top:20px; background:#cce5ff;">راهنمای استفاده از کیبورد</button>
@@ -144,7 +145,7 @@ button:hover {
 <b>^</b> → توان. مثال صحیح: 2^3 = 8 (از چپ به راست).<br>
 <b>( و )</b> → برای تعیین اولویت عملیات.<br>
 <b>پاک کردن</b> → پاک کردن ورودی.<br>
-<b>دسته‌بندی</b> → محاسبه مقدار و تعیین نوع عدد همراه دلیل.
+<b>شناسایی</b> → محاسبه مقدار و تعیین نوع عدد همراه دلیل.
 </div>
 
 <div id="result"></div>
@@ -181,7 +182,8 @@ function isRational(value) {
     return false;
 }
 
-function categorize() {
+// **تغییر در توابع جاوااسکریپت برای تطابق با دکمه جدید**
+function identify() {
     let input = document.getElementById("screen").value;
     let result = document.getElementById("result");
 
@@ -226,4 +228,4 @@ function toggleGuide(){
 </script>
 
 </body>
-</html>
+</ht
