@@ -7,7 +7,7 @@
 <style>
 body {
     font-family: sans-serif;
-    /* تغییر مورد نظر شما: آبی خیلی تیره */
+    /* رنگ پس‌زمینه آبی خیلی تیره حفظ شده است */
     background: #000033; 
     padding: 20px;
     text-align: center;
@@ -94,14 +94,6 @@ button:hover {
 <!-- رنگ متن عنوان به طلایی حفظ شد -->
 <h1 style="color: #FFD700;">آزمایشگاه شناسایی نوع عدد</h1>
 
-<div id="tips">
-<b>نکات مهم:</b><br>
-▪ برای جمع، تفریق یا تقسیم رادیکال‌ها، عملیات را داخل پرانتز قرار دهید تا اولویت‌ها رعایت شود.<br>
-▪ برای ضرب عدد پشت رادیکال، از دکمه ضرب (*) استفاده کنید. مثال: 7*√16 (اول √16 سپس ضرب در 7).<br>
-▪ ترتیب عملیات ریاضی و پرانتزها را رعایت کنید.<br>
-▪ می‌توانید چند رادیکال و عملیات ترکیبی را با پرانتزهای مناسب وارد کنید.
-</div>
-
 <input id="screen" type="text">
 
 <div class="keyboard">
@@ -150,6 +142,15 @@ button:hover {
 </div>
 
 <div id="result"></div>
+
+<!-- بخش نکات مهم (Tips) به انتهای صفحه منتقل شد -->
+<div id="tips" style="margin-top: 30px;">
+<b>نکات مهم:</b><br>
+▪ برای جمع، تفریق یا تقسیم رادیکال‌ها، عملیات را داخل پرانتز قرار دهید تا اولویت‌ها رعایت شود.<br>
+▪ برای ضرب عدد پشت رادیکال، از دکمه ضرب (*) استفاده کنید. مثال: 7*√16 (اول √16 سپس ضرب در 7).<br>
+▪ ترتیب عملیات ریاضی و پرانتزها را رعایت کنید.<br>
+▪ می‌توانید چند رادیکال و عملیات ترکیبی را با پرانتزهای مناسب وارد کنید.
+</div>
 
 <script>
 function add(c) {
@@ -222,8 +223,8 @@ function identify() {
 }
 
 function toggleGuide(){
-    let g = document.getElementById("guide");
-    g.style.dis = (g.style.display==="none") ? "block" : "none";
+    let g = documgetElementById("guide");
+    g.style.display = (g.style.display==="none") ? "block" : "none";
 }
 </script>
 
