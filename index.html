@@ -55,7 +55,7 @@ button:hover {
     text-align: right;
 }
 #guide {
-    display: none; /* این خط اطمینان می‌دهد که در حالت پیش‌فرض مخفی است */
+    display: none; /* این باید برای اولین بار مخفی باشد تا با کلیک نمایش داده شود */
     margin-top: 15px;
     padding: 12px;
     background: #f9f9f9;
@@ -124,8 +124,10 @@ button:hover {
     <button onclick="identify()">شناسایی</button>
 </div>
 
+<!-- دکمه راهنما فراخوانی toggleGuide() را انجام می‌دهد -->
 <button onclick="toggleGuide()" style="margin-top:20px; background:#cce5ff;">راهنمای استفاده از کیبورد</button>
 
+<!-- بخش راهنما که در ابتدا display: none دارد -->
 <div id="guide">
 <b>راهنمای کیبورد:</b><br><br>
 <b>اعداد (0-9):</b> برای وارد کردن اعداد.<br>
@@ -143,7 +145,7 @@ button:hover {
 
 <div id="result"></div>
 
-<!-- بخش نکات مهم (Tips) به انتهای صفحه منتقل شد -->
+<!-- بخش نکات مهم (Tips) در انتها حفظ شده است -->
 <div id="tips" style="margin-top: 30px;">
 <b>نکات مهم:</b><br>
 ▪ برای جمع، تفریق یا تقسیم رادیکال‌ها، عملیات را داخل پرانتز قرار دهید تا اولویت‌ها رعایت شود.<br>
@@ -224,7 +226,8 @@ function identify() {
 
 function toggleGuide(){
     let g = document.getElementById("guide");
-    g.style.display = (g.stdisplay==="none") ? "block" : "none";
+    // این خط وظیفه ن یا مخفی کردن راهنما را دارد و باید به درستی کار کند
+    g.style.display = (g.style.display==="none") ? "block" : "none";
 }
 </script>
 
