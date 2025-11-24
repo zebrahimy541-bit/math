@@ -91,7 +91,10 @@ button:hover {
 
 <body>
 
-<!-- رنگ متن عنوان به طلایی حفظ شد -->
+<!-- متن جدید اضافه شده با استایل طلایی -->
+<h2 style="color: #FFD700;">ستایش عبدل نسب کلاس 9/4 مدرسه پردیس</h2>
+
+<!-- عنوان اصلی حفظ شده -->
 <h1 style="color: #FFD700;">آزمایشگاه شناسایی نوع عدد</h1>
 
 <input id="screen" type="text">
@@ -124,7 +127,7 @@ button:hover {
     <button onclick="identify()">شناسایی</button>
 </div>
 
-<!-- فراخوانی تابع در دکمه -->
+<!-- فراخوانی تابع در دکمه (همانند نسخه قبلی) -->
 <button onclick="toggleGuide()" style="margin-top:20px; background:#cce5ff;">راهنمای استفاده از کیبورد</button>
 
 <!-- بخش راهنما -->
@@ -226,7 +229,6 @@ function identify() {
 
 function toggleGuide(){
     let g = document.getElementById("guide");
-// این خط دقیقاً همان چیزی است که برای نمایش/مخفی کردن راهنما لازم است
     g.style.display = (g.style.display==="none") ? "block" : "none";
 }
 </script>
