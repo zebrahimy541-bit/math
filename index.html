@@ -7,7 +7,6 @@
 <style>
 body {
     font-family: sans-serif;
-    /* تغییر اعمال شده در این خط: آبی تیره با حاله سبز تیره */
     background: #1a237e; /* آبی تیره */
     background-image: 
         linear-gradient(rgba(0, 255, 0, 0.1) 5%, transparent 5%),
@@ -42,6 +41,8 @@ button {
     border-radius: 8px;
     border: 1px solid #444;
     background: white;
+    /* تغییر رنگ متن دکمه‌های کیبورد به طلایی */
+    color: #FFD700; /* طلایی */
 }
 button:hover {
     background: #ddd;
@@ -91,7 +92,8 @@ button:hover {
 
 <body>
 
-<h1>آزمایشگاه شناسایی نوع عدد</h1>
+<!-- تغییر رنگ متن عنوان اصلی به طلایی -->
+<h1 style="color: #FFD700;">آزمایشگاه شناسایی نوع عدد</h1>
 
 <div id="tips">
 <b>نکات مهم:</b><br>
@@ -128,7 +130,7 @@ button:hover {
     <button onclick="add(')')">)</button>
 
     <button onclick="clearInput()">پاک کردن</button>
-    <button onclick="identify()">شناسایی</button> <!-- از نسخه قبل حفظ شد -->
+    <button onclick="identify()">شناسایی</button>
 </div>
 
 <button onclick="toggleGuide()" style="margin-top:20px; background:#cce5ff;">راهنمای استفاده از کیبورد</button>
@@ -222,8 +224,7 @@ function identify() {
 
 function toggleGuide(){
     let g = document.getElementById("guide");
-    g.style.display = (g.style.display==="none")block" : "none";
-}
+    g.style.display = (g.style.display==="none") ? "block" : "none
 </script>
 
 </body>
