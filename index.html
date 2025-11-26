@@ -129,7 +129,7 @@ button:hover {
 ▪ برای جمع، تفریق یا تقسیم رادیکال‌ها، عملیات را داخل پرانتز قرار دهید.<br>
 ▪ برای ضرب عدد پشت رادیکال، از دکمه ضرب (*) استفاده کنید.<br>
 ▪ ترتیب عملیات ریاضی و پرانتزها را رعایت کنید.<br>
-▪ برای نوشتن عباراتی مثل <b>رادیکال 9 به توان 2</b> کافیست به‌صورت <b>√9^2</b> وارد کنید.
+▪ برای نوشتن عباراتی مثل <b>√9^2</b> (رادیکال 9 به توان 2) کافیست دقیقاً به همین صورت از چپ به راست وارد کنید تا مقدار نهایی درست یعنی <b>9</b> محاسبه شود.
 </div>
 
 <script>
@@ -143,15 +143,11 @@ function clearInput() {
 }
 
 function convertRadicals(expr) {
-    expr = expr.replace(/(\d+(\.\d+)?)?√\((.*?)\)/g, function(match, coeff, _, inner){
-        if(!coeff) coeff = 1;
-        return "(" + coeff + "*Math.sqrt(" + inner + "))";
-    });
-    expr = expr.replace(/(\d+(\.\d+)?)?√(\d+(\.\d+)?)/g, function(match, coeff, _, num){
-        if(!coeff) coeff = 1;
-        return "(" + coeff + "*Math.sqrt(" + num + "))";
-    });
-    expr = expr.replace(/\^/g, "**"); // تبدیل ^ به توان واقعی
+    // ابتدا رادیکال‌ها را به Math.sqrt تبدیل می‌کنیم
+    expr = expr.replace(/√\((.*?)\)/g, "Math.sqrt($1)");
+    expr = expr.replace(/√(\d+(\.\d+)?)/g, "Math.sqrt($1)");
+    // سپس توان ^ را به ** تبدیل می‌کنیم
+    expr = expr.replace(/\^/g, "**");
     return expr;
 }
 
