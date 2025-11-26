@@ -1,3 +1,137 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>آزمایشگاه شناسایی نوع عدد</title>
+<style>
+body {
+    font-family: sans-serif;
+    background: #000033; 
+    padding: 20px;
+    text-align: center;
+    background-image: 
+        linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+}
+#screen {
+    width: 80%;
+    height: 50px;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: left;
+    direction: ltr;
+    border: 2px solid #444;
+    border-radius: 8px;
+    padding-left: 10px;
+}
+.keyboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 600px;
+    margin: auto;
+}
+button {
+    padding: 12px 18px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: white;
+}
+button:hover {
+    background: #ddd;
+}
+#result {
+    margin-top: 25px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 10px;
+    font-size: 20px;
+    text-align: right;
+}
+#guide {
+    display: none;
+    margin-top: 15px;
+    padding: 12px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 18px;
+    text-align: right;
+    max-width: 600px;
+    margin: 15px auto 0 auto;
+}
+#guide b {
+    color: #2a4d8f;
+}
+#tips {
+    width: 90%;
+    max-width: 500px;
+    margin: 10px auto 30px auto;
+    padding: 12px;
+    background: #ffd966;
+    border: 1px solid #f0c36d;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: right;
+}
+</style>
+</head>
+<body>
+
+<h2 style="color: #FFD700;">ستایش عبدل نسب کلاس 9/4 مدرسه پردیس</h2>
+<h1 style="color: #FFD700;">آزمایشگاه شناسایی نوع عدد</h1>
+
+<input id="screen" type="text">
+
+<div class="keyboard">
+    <button onclick="add('1')">1</button>
+    <button onclick="add('2')">2</button>
+    <button onclick="add('3')">3</button>
+    <button onclick="add('4')">4</button>
+    <button onclick="add('5')">5</button>
+    <button onclick="add('6')">6</button>
+    <button onclick="add('7')">7</button>
+    <button onclick="add('8')">8</button>
+    <button onclick="add('9')">9</button>
+    <button onclick="add('0')">0</button>
+
+    <button onclick="add('.')">.</button>
+    <button onclick="add('-')">−</button>
+    <button onclick="add('+')">+</button>
+    <button onclick="add('*')">*</button>
+    <button onclick="add('/')">/</button>
+
+    <button onclick="add('√')">√</button>
+    <button onclick="add('^')">^</button>
+
+    <button onclick="add('(')">(</button>
+    <button onclick="add(')')">)</button>
+
+    <button onclick="clearInput()">پاک کردن</button>
+    <button onclick="identify()">شناسایی</button>
+</div>
+
+<button onclick="toggleGuide()" style="margin-top:20px; background:#cce5ff;">راهنمای استفاده از کیبورد</button>
+
+<div id="guide">
+<b>راهنمای کیبورد:</b><br><br>
+اعداد (0-9)، عملگرها، رادیکال (√)، توان (^)، پرانتزها، پاک کردن و شناسایی.
+</div>
+
+<div id="result"></div>
+
+<div id="tips" style="margin-top: 30px;">
+<b>نکات مهم:</b><br>
+▪ برای جمع، تفریق یا تقسیم رادیکال‌ها، عملیات را داخل پرانتز قرار دهید.<br>
+▪ برای ضرب عدد پشت رادیکال، از دکمه ضرب (*) استفاده کنید.<br>
+▪ ترتیب عملیات ریاضی و پرانتزها را رعایت کنید.<br>
+▪ برای نوشتن عباراتی مثل <b>رادیکال 9 به توان 2</b> کافیست به‌صورت <b>√9^2</b> وارد کنید.
+</div>
+
 <script>
 function add(c) {
     document.getElementById("screen").value += c;
@@ -53,17 +187,17 @@ function identify() {
     explanation += "<b>دسته‌بندی همراه دلیل:</b><br><br>";
 
     if (Number.isInteger(value) && value >=0){
-        explanation += "🟢 <b>طبیعی</b>: چون صحیح و غیرمنفی است.<br><br>";
+        explanation += "🟢 <b>طبیعی</b><br><br>";
     }
     if (Number.isInteger(value)){
-        explanation += "🟣 <b>صحیح</b>: چون بخش اعشاری ندارد.<br><br>";
+        explanation += "🟣 <b>صحیح</b><br><br>";
     }
     if (isRational(value)){
-        explanation += "🔵 <b>گویا</b>: قابل نوشتن به صورت کسر p/q است.<br><br>";
+        explanation += "🔵 <b>گویا</b><br><br>";
     } else {
-        explanation += "🔴 <b>گنگ</b>: اعشار نامتناهی غیر دوره‌ای دارد.<br><br>";
+        explanation += "🔴 <b>گنگ</b><br><br>";
     }
-    explanation += "⚫ <b>حقیقی</b>: روی محور اعداد حقیقی قرار دارد.";
+    explanation += "⚫ <b>حقیقی</b>";
 
     result.innerHTML = explanation;
 }
@@ -73,3 +207,6 @@ function toggleGuide(){
     g.style.display = (g.style.display==="none") ? "block" : "none";
 }
 </script>
+
+</body>
+</html>
