@@ -170,8 +170,7 @@ function convertRadicals(expr) {
         if(!coeff) coeff = 1;
         return "(" + coeff + "*Math.sqrt(" + num + "))";
     });
-    // تبدیل توان به عملگر استاندارد جاوااسکریپت
-    expr = expr.replace(/\^/g, "**");
+    expr = expr.replace(/\^/g, "**"); // تبدیل ^ به توان واقعی
     return expr;
 }
 
@@ -217,4 +216,11 @@ function identify() {
     } else {
         explanation += "🔴 <b>گنگ</b>: اعشار نامتناهی غیر دوره‌ای دارد.<br><br>";
     }
-    explanation += "⚫ <b>حقیقی</b>: روی محور اعداد حقیقی قرار
+    explanation += "⚫ <b>حقیقی</b>: روی محور اعداد حقیقی قرار دارد.";
+
+    result.innerHTML = explanation;
+}
+
+function toggleGuide(){
+    let g = document.getElementById("guide");
+    g.style.display = (g.style.display==="none") ? "
